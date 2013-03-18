@@ -25,7 +25,7 @@
         <pluginRepository>
             <id>local-repository</id>
             <name>Local Checked in Repo</name>
-            <url>file://${project.basedir}/../repo</url>
+            <url>file://${project.basedir}/repo</url>
         </pluginRepository>
     </pluginRepositories>
 
