@@ -13,5 +13,5 @@ Given /^I press the "(.*?)" button$/ do |button_text|
 end
 
 When /^I wait up to (\d+) seconds for "(.*?)" to appear$/ do |timeout, text|
-  retry_until_success timeout, "is_text_present", :text => text
+  perform_action :action => "is_text_present", :arguments => {:text => text}, :retry_until => timeout
 end

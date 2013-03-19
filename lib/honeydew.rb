@@ -2,39 +2,31 @@ require "honeydew/version"
 require 'retriable'
 
 module Honeydew
-  class <<self
-    def start_uiautomator_server
-      log "Starting server in the device"
-      gem_path = Gem.loaded_specs['honeydew'].full_gem_path
-      Thread.new do
-        system "cd #{gem_path}/android-server; mvn clean install"
-      end
+  extend self
 
-      log "Forwarding port 9090 to device"
-      system "adb forward tcp:9090 tcp:9090"
-
-      log "Waiting for server to comeup"
-      ::Retriable.retriable :on => [RestClient::ServerBrokeConnection, Errno::ECONNRESET, Errno::ECONNREFUSED], :interval => 5, :tries => 12 do
-        RestClient.head "http://localhost:9090/"
-      end
+  def start_uiautomator_server
+    log "Starting server in the device"
+    gem_path = Gem.loaded_specs['honeydew'].full_gem_path
+    Thread.new do
+      system "cd #{gem_path}/android-server; mvn clean install"
     end
 
-    def terminate_uiautomator_server
-      log "Terminating server"
-      begin
-        JSON.parse(RestClient.get("http://localhost:9090/terminate"))
-      rescue Exception
-        # Swallow
-      end
-    end
+    log "Forwarding port 9090 to device"
+    system "adb forward tcp:9090 tcp:9090"
 
-    private
-    def log(message)
-      print Time.now
-      print " - "
-      puts message
+    log "Waiting for server to comeup"
+    ::Retriable.retriable :on => [RestClient::ServerBrokeConnection, Errno::ECONNRESET, Errno::ECONNREFUSED], :interval => 5, :tries => 12 do
+      RestClient.head "http://localhost:9090/"
     end
-    
+  end
+
+  def terminate_uiautomator_server
+    log "Terminating server"
+    begin
+      JSON.parse(RestClient.get("http://localhost:9090/terminate"))
+    rescue Exception
+      # Swallow
+    end
   end
 
   def dump_window_hierarchy(local_path)
@@ -48,27 +40,47 @@ module Honeydew
     `adb pull #{path_in_device} #{local_path}`
   end
 
-  def perform_action(command)
-    JSON.parse(RestClient.get("http://localhost:9090/", :params => stringify_keys(:command => command))).tap do |response|
-      p command.inspect
-      p response.inspect
+  def perform_action(options)
+    command = options.slice(:action, :arguments)
+    timeout = options[:retry_until]
+
+    response = timeout ? retry_until_success(timeout, command) : execute_command(command)
+    log_action(command, response)
+    response
+  end
+
+  private
+  def retry_until_success(timeout, command)
+    completed = false
+    response = nil
+    Timeout.timeout(timeout.to_i) do
+      until completed do
+        sleep 1
+        response = execute_command(command)
+        completed = response["success"]
+      end
     end
+    return response
+  rescue Timeout::Error
+    log_action(command, response)
+    raise "Timeout while performing #{command[:action]}, with arguments: #{command[:arguments]}"
+  end
+
+  def execute_command(command)
+    JSON.parse(RestClient.get("http://localhost:9090/", :params => stringify_keys(:command => command)))
+  end
+
+  def log_action(command, response)
+    log command
+    log response
   end
 
   def stringify_keys(options)
     JSON.parse(options.to_json)
   end
 
-  def retry_until_success(timeout, action, arguments)
-    completed = false
-    Timeout.timeout(timeout.to_i) do
-      until completed do
-        completed = perform_action(:action => action, :arguments => arguments)["success"]
-        sleep 1
-      end
-    end
-  rescue Timeout::Error
-    raise "Timeout while performing #{action}, with arguments: #{arguments}"
+  def log(message)
+    p message
   end
 end
 
