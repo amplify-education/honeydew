@@ -24,5 +24,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency("json")
   spec.add_dependency("railties")
   spec.add_dependency("rest-client")
-  spec.add_dependency("retriable")
 end

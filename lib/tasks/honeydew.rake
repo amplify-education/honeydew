@@ -1,5 +1,6 @@
-desc "Run honeydew cucumber tests"
+require 'honeydew'
 
+desc "Run honeydew cucumber tests"
 task :honeydew do
   cucumber_opts = ENV["CUCUMBER_OPTS"]
   Honeydew.start_uiautomator_server

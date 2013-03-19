@@ -1,21 +1,20 @@
 require "honeydew/version"
-require 'retriable'
 
 module Honeydew
   extend self
 
   def start_uiautomator_server
     log "Starting server in the device"
-    gem_path = Gem.loaded_specs['honeydew'].full_gem_path
+    android_server_path = File.absolute_path(File.join(File.dirname(__FILE__), "../android-server"))
     Thread.new do
-      system "cd #{gem_path}/android-server; mvn clean install"
+      system "cd #{android_server_path}; mvn clean install"
     end
 
     log "Forwarding port 9090 to device"
     system "adb forward tcp:9090 tcp:9090"
 
     log "Waiting for server to comeup"
-    ::Retriable.retriable :on => [RestClient::ServerBrokeConnection, Errno::ECONNRESET, Errno::ECONNREFUSED], :interval => 5, :tries => 12 do
+    retriable :on => [RestClient::ServerBrokeConnection, Errno::ECONNRESET, Errno::ECONNREFUSED], :interval => 5, :tries => 12 do
       RestClient.head "http://localhost:9090/"
     end
   end
@@ -81,6 +80,19 @@ module Honeydew
 
   def log(message)
     p message
+  end
+
+  def retriable(options, &block)
+    tries = options[:tries]
+    yield
+  rescue *[*options[:on]]
+    tries -= 1
+    if tries > 0
+      sleep options[:interval]
+      retry
+    else
+      raise
+    end
   end
 end
 
