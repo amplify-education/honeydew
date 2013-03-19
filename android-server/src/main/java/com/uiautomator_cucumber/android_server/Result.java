@@ -4,6 +4,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 
 public class Result {
     private final boolean success;
+    private String description;
     private String errorMessage;
     private String stackTrace;
 
@@ -14,6 +15,15 @@ public class Result {
         this.success = true;
     }
 
+    public Result(boolean success) {
+        this.success = success;
+    }
+
+    public Result(boolean success, String description) {
+        this.success = success;
+        this.description = description;
+    }
+
     public Result(String errorMessage, Throwable exception) {
         this(errorMessage);
         this.stackTrace = ExceptionUtils.getFullStackTrace(exception);
@@ -22,9 +32,5 @@ public class Result {
     public Result(String errorMessage) {
         this.success = false;
         this.errorMessage = errorMessage;
-    }
-
-    public Result(boolean success) {
-        this.success = success;
     }
 }

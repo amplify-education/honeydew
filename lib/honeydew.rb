@@ -28,12 +28,47 @@ module Honeydew
       end
     end
 
+    private
     def log(message)
       print Time.now
       print " - "
       puts message
     end
+    
+  end
 
+  def dump_window_hierarchy(local_path)
+    path_in_device = perform_action(:action => "dump_window_hierarchy")["description"]
+    `adb pull #{path_in_device} #{local_path}`
+  end
+
+  def take_screenshot(local_path)
+    path_in_device = "/data/local/tmp/honeydew.png"
+    `adb shell /system/bin/screencap -p #{path_in_device}`
+    `adb pull #{path_in_device} #{local_path}`
+  end
+
+  def perform_action(command)
+    JSON.parse(RestClient.get("http://localhost:9090/", :params => stringify_keys(:command => command))).tap do |response|
+      p command.inspect
+      p response.inspect
+    end
+  end
+
+  def stringify_keys(options)
+    JSON.parse(options.to_json)
+  end
+
+  def retry_until_success(timeout, action, arguments)
+    completed = false
+    Timeout.timeout(timeout.to_i) do
+      until completed do
+        completed = perform_action(:action => action, :arguments => arguments)["success"]
+        sleep 1
+      end
+    end
+  rescue Timeout::Error
+    raise "Timeout while performing #{action}, with arguments: #{arguments}"
   end
 end
 

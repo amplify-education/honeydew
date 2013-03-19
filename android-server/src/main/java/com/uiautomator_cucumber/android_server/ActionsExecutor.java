@@ -2,10 +2,7 @@ package com.uiautomator_cucumber.android_server;
 
 import android.util.Log;
 import com.android.uiautomator.core.UiDevice;
-import com.uiautomator_cucumber.android_server.actions.ClickButton;
-import com.uiautomator_cucumber.android_server.actions.IsTextPresent;
-import com.uiautomator_cucumber.android_server.actions.LaunchApp;
-import com.uiautomator_cucumber.android_server.actions.SetText;
+import com.uiautomator_cucumber.android_server.actions.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -50,6 +47,7 @@ public class ActionsExecutor {
         actionClasses.add(IsTextPresent.class);
         actionClasses.add(ClickButton.class);
         actionClasses.add(SetText.class);
+        actionClasses.add(DumpWindowHierarchy.class);
         return actionClasses;
     }
 
