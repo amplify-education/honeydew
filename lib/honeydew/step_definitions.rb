@@ -1,7 +1,5 @@
 Given /^I launch app "(.*?)"$/ do |app_name|
   perform_action :action => "launch_app", :arguments => {:appName => app_name}
-  dump_window_hierarchy "/tmp/hierarchy.uix"
-  take_screenshot "/tmp/hierarchy.png"
 end
 
 Given /^I enter text "(.*?)" into field with description "(.*?)"$/ do |text, field_description|
@@ -14,4 +12,12 @@ end
 
 When /^I wait up to (\d+) seconds for "(.*?)" to appear$/ do |timeout, text|
   perform_action :action => "is_text_present", :arguments => {:text => text}, :retry_until => timeout
+end
+
+Given /I uninstall the app "(.*?)" using ADB$/ do |pacakge_name|
+  uninstall_app pacakge_name
+end
+
+Then /I see the app "(.*?)" installed using ADB$/ do |pacakge_name|
+  is_app_installed?(pacakge_name).should be_true
 end
