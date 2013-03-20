@@ -39,6 +39,14 @@ module Honeydew
     `adb pull #{path_in_device} #{local_path}`
   end
 
+  def uninstall_app(package_name)
+    `adb uninstall #{package_name}`
+  end
+
+  def is_app_installed?(package_name)
+    `adb shell pm list packages`.include?(package_name)
+  end
+
   def perform_action(options)
     command = options.slice(:action, :arguments)
     timeout = options[:retry_until]
