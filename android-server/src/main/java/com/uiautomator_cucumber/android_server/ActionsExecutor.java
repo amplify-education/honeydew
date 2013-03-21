@@ -48,6 +48,8 @@ public class ActionsExecutor {
         actionClasses.add(ClickButton.class);
         actionClasses.add(SetText.class);
         actionClasses.add(DumpWindowHierarchy.class);
+        actionClasses.add(SelectMenuInSettings.class);
+        actionClasses.add(SelectFromAppsList.class);
         return actionClasses;
     }
 

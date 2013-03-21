@@ -2,6 +2,18 @@ Given /^I launch app "(.*?)"$/ do |app_name|
   perform_action :action => "launch_app", :arguments => {:appName => app_name}
 end
 
+Given /^I select "(.*?)" in the Settings view$/ do |menu_item|
+  perform_action :action => "select_menu_in_settings", :arguments => {:menuName => menu_item}
+end
+
+Given /^I select app "(.*?)" from the Apps list in the Settings view$/ do |app_name|
+  perform_action :action => "select_from_apps_list", :arguments => {:appName => app_name}
+end
+
+Given /^I should see text containing "(.*?)"$/ do |exp_text|
+  perform_action(:action => "is_text_present", :arguments => {:text => exp_text})["success"].should be_true
+end
+
 Given /^I enter text "(.*?)" into field with description "(.*?)"$/ do |text, field_description|
   perform_action :action => "set_text", :arguments => {:description => field_description, :text => text}
 end
