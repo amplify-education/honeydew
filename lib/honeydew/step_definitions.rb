@@ -33,3 +33,7 @@ end
 Then /I see the app "(.*?)" installed using ADB$/ do |pacakge_name|
   is_app_installed?(pacakge_name).should be_true
 end
+
+Then /I should see a button "(.*?)" with (package|description) as "(.*?)"$/ do |button_text, condition, package_name|
+  perform_action(:action => "is_button_present", :arguments => {:text => button_text}, :retry_until => timeout)
+end
