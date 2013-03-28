@@ -10,19 +10,19 @@ module Honeydew
       system "cd #{android_server_path}; mvn clean install"
     end
 
-    log "Forwarding port 9090 to device"
-    system "adb forward tcp:9090 tcp:9090"
+    log "Forwarding port 7120 to device"
+    system "adb forward tcp:7120 tcp:7120"
 
     log "Waiting for server to comeup"
     retriable :on => [RestClient::ServerBrokeConnection, Errno::ECONNRESET, Errno::ECONNREFUSED], :interval => 5, :tries => 12 do
-      RestClient.head "http://localhost:9090/"
+      RestClient.head "http://localhost:7120/"
     end
   end
 
   def terminate_uiautomator_server
     log "Terminating server"
     begin
-      JSON.parse(RestClient.get("http://localhost:9090/terminate"))
+      JSON.parse(RestClient.get("http://localhost:7120/terminate"))
     rescue Exception
       # Swallow
     end
@@ -74,7 +74,7 @@ module Honeydew
   end
 
   def execute_command(command)
-    JSON.parse(RestClient.get("http://localhost:9090/", :params => stringify_keys(:command => command)))
+    JSON.parse(RestClient.get("http://localhost:7120/", :params => stringify_keys(:command => command)))
   end
 
   def log_action(command, response)

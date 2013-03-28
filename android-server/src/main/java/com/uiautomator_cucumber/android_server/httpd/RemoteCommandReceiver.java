@@ -18,8 +18,8 @@ public class RemoteCommandReceiver extends NanoHTTPD {
     private boolean running = true;
 
     public RemoteCommandReceiver(ActionsExecutor actionsExecutor) throws IOException, InterruptedException {
-        super(9090, new File("/"));
-        Log.d(TAG, "Listening on HTTP port 9090. Kill test to stop");
+        super(7120, new File("/"));
+        Log.d(TAG, "Listening on HTTP port 7120. Kill test to stop");
         this.gson = new Gson();
         this.actionsExecutor = actionsExecutor;
         while (running) {
