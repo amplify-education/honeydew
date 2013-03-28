@@ -19,7 +19,7 @@ public class ActionsExecutor {
 
     public ActionsExecutor(UiDevice uiDevice) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         this.uiDevice = uiDevice;
-        actions = newHashMap();
+        actions = new HashMap();
         for (Class<? extends Action> actionClass : allActionClasses()) {
             Constructor<? extends Action> constructor = actionClass.getConstructor(UiDevice.class);
             Action action = constructor.newInstance(getUiDevice());
