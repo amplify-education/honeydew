@@ -53,6 +53,7 @@ module Honeydew
 
     response = timeout ? retry_until_success(timeout, command) : execute_command(command)
     log_action(command, response)
+    raise "Action #{options} failed." unless response["success"]
     response
   end
 
