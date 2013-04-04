@@ -1,10 +1,7 @@
 require 'honeydew'
+require 'cucumber/rake/task'
 
-desc "Run honeydew cucumber tests"
-task :honeydew do
-  cucumber_opts = ENV["CUCUMBER_OPTS"]
-  Honeydew.start_uiautomator_server
-  status = system "bundle exec cucumber #{cucumber_opts}"
-  Honeydew.terminate_uiautomator_server
-  fail "Rake task failed!" unless status
+Cucumber::Rake::Task.new(:honeydew, 'Run honeydew cucumber tests') do |t|
+  t.profile = 'honeydew'
+  t.cucumber_opts = "--tags @honeydew"
 end
