@@ -3,7 +3,7 @@ require "honeydew/device"
 
 module Honeydew
   class Configuration
-    attr_accessor :port, :started
+    attr_accessor :port
 
     def initialize
       @port = 7120
@@ -11,7 +11,7 @@ module Honeydew
   end
 
   class <<self
-    attr_accessor :config, :default_device
+    attr_accessor :config, :default_device, :started
 
     def config
       return @config if @config
@@ -29,14 +29,17 @@ module Honeydew
     end
 
     def start_uiautomator_server
+      return if @started
       default_device.start_uiautomator_server
+      @started = true
     end
 
     def terminate_uiautomator_server
       default_device.terminate_uiautomator_server
     end
+
+    at_exit do
+      Honeydew.terminate_uiautomator_server
+    end
   end
 end
-
-require 'honeydew/railtie' if defined?(Rails)
-
