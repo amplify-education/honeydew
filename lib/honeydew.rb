@@ -39,7 +39,7 @@ module Honeydew
     end
 
     at_exit do
-      Honeydew.terminate_uiautomator_server
+      Honeydew.terminate_uiautomator_server if Honeydew.started
     end
   end
 end
