@@ -55,7 +55,7 @@ class Device
   end
 
   def is_app_installed?(package_name)
-    adb "shell pm list packages".include?(package_name)
+    adb("shell pm list packages").include?(package_name)
   end
 
   def perform_action(options)
@@ -71,7 +71,9 @@ class Device
   private
 
   def adb(command)
-    `adb -s #{serial} #{command}`
+    adb_command = "adb -s #{serial} #{command}"
+    log "Executing '#{adb_command}'"
+    `#{adb_command}`
   end
 
   def retry_until_success(timeout, command)
