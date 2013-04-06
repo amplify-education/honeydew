@@ -1,6 +1,7 @@
 class Device
   attr_reader :serial
-  def initialize()
+
+  def initialize
     connected_device_serial.tap do |serial|
       if serial.to_s.empty?
         log "No devices connected"
@@ -26,17 +27,15 @@ class Device
 
     log "Waiting for server to comeup"
     retriable :on => [RestClient::ServerBrokeConnection, Errno::ECONNRESET, Errno::ECONNREFUSED], :interval => 5, :tries => 12 do
-      RestClient.head "http://localhost:#{Honeydew.config.port}/"
+      RestClient.head device_endpoint
     end
   end
 
   def terminate_uiautomator_server
     log "Terminating server"
-    begin
-      JSON.parse(RestClient.get("http://localhost:#{Honeydew.config.port}/terminate"))
-    rescue Exception
-      # Swallow
-    end
+    JSON.parse(RestClient.get("#{device_endpoint}/terminate"))
+  rescue Exception
+    # Swallow
   end
 
   def dump_window_hierarchy(local_path)
@@ -76,6 +75,10 @@ class Device
     `#{adb_command}`
   end
 
+  def device_endpoint
+    "http://localhost:#{Honeydew.config.port}"
+  end
+
   def retry_until_success(timeout, command)
     completed = false
     response = nil
@@ -93,7 +96,7 @@ class Device
   end
 
   def execute_command(command)
-    JSON.parse(RestClient.get("http://localhost:#{Honeydew.config.port}/", :params => stringify_keys(:command => command)))
+    JSON.parse(RestClient.get(device_endpoint, :params => stringify_keys(:command => command)))
   end
 
   def log_action(command, response)
