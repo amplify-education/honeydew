@@ -60,8 +60,16 @@ class Device
   def perform_action(options)
     command = options.slice(:action, :arguments)
     timeout = options[:retry_until]
+    attempts = options[:attempts]
 
-    response = timeout ? retry_until_success(timeout, command) : execute_command(command)
+    response =
+        if timeout
+          retry_until_timeout(timeout, command)
+        elsif attempts
+          retry_until_success(attempts, command)
+        else
+          execute_command(command)
+        end
     log_action(command, response)
     raise "Action #{options} failed." unless response["success"]
     response
@@ -79,7 +87,23 @@ class Device
     "http://localhost:#{Honeydew.config.port}"
   end
 
-  def retry_until_success(timeout, command)
+  def retry_until_success(attempts, command)
+    completed = false
+    response = nil
+    tries = 0
+    until completed || (tries >= attempts) do
+      response = execute_command(command)
+      completed = response["success"]
+      return response if completed
+      tries += 1
+      sleep 1
+    end
+
+    log_action(command, response)
+    raise "All #{attempts} attempts failed while performing #{command[:action]}, with arguments: #{command[:arguments]}"
+  end
+
+  def retry_until_timeout(timeout, command)
     completed = false
     response = nil
     Timeout.timeout(timeout.to_i) do
@@ -124,4 +148,5 @@ class Device
       raise
     end
   end
+
 end
