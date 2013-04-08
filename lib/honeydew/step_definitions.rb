@@ -1,5 +1,5 @@
 Given /^I launch app "(.*?)"$/ do |app_name|
-  Honeydew.default_device.perform_action :action => "launch_app", :arguments => {:appName => app_name, :attempts => 3}
+  Honeydew.default_device.perform_action :action => "launch_app", :arguments => {:appName => app_name}, :attempts => 3
 end
 
 Given /^I select "(.*?)" in the Settings view$/ do |menu_item|
