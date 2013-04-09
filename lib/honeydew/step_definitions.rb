@@ -1,5 +1,11 @@
+ELEMENTS = {"button" => "Button", "text" => "TextView"}
+
 Given /^I launch app "(.*?)"$/ do |app_name|
   Honeydew.default_device.perform_action :action => "launch_app", :arguments => {:appName => app_name}, :attempts => 3
+end
+
+Given /^I launch home$/ do
+  Honeydew.default_device.perform_action :action => "launch_home"
 end
 
 Given /^I select "(.*?)" in the Settings view$/ do |menu_item|
@@ -18,8 +24,8 @@ Given /^I enter text "(.*?)" into field with description "(.*?)"$/ do |text, fie
   Honeydew.default_device.perform_action :action => "set_text", :arguments => {:description => field_description, :text => text}
 end
 
-Given /^I press the "(.*?)" button$/ do |button_text|
-  Honeydew.default_device.perform_action :action => "click_button", :arguments => {:text => button_text}
+Given /^I press the "(.*?)" (button|text)$/ do |button_text,element_type|
+  Honeydew.default_device.perform_action :action => "click", :arguments => {:text => button_text, :type => ELEMENTS[element_type]}
 end
 
 When /^I wait up to (\d+) seconds for "(.*?)" to appear$/ do |timeout, text|
@@ -28,6 +34,14 @@ end
 
 Given /I uninstall the app "(.*?)" using ADB$/ do |pacakge_name|
   Honeydew.default_device.uninstall_app pacakge_name
+end
+
+Given /I install the app "(.*?)" using ADB$/ do |apk_location|
+  Honeydew.default_device.install_app apk_location
+end
+
+Given /I reboot the device using ADB$/ do
+  Honeydew.default_device.reboot
 end
 
 Then /I see the app "(.*?)" installed using ADB$/ do |pacakge_name|

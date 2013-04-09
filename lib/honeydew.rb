@@ -28,8 +28,8 @@ module Honeydew
       @default_device ||= Device.new
     end
 
-    def start_uiautomator_server
-      return if @started
+    def start_uiautomator_server(started_status=@started)
+      return if started_status
       default_device.start_uiautomator_server
       @started = true
     end

@@ -9,16 +9,17 @@ import com.uiautomator_cucumber.android_server.Result;
 
 import java.util.Map;
 
-public class ClickButton extends Action {
-    public ClickButton(UiDevice uiDevice) {
+public class Click extends Action {
+    public Click(UiDevice uiDevice) {
         super(uiDevice);
     }
 
     @Override
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
         String text = (String) arguments.get("text");
-        UiObject button = new UiObject(new UiSelector().className(android.widget.Button.class.getName()).text(text));
-        button.click();
+        String type = (String) arguments.get("type");
+        UiObject element = new UiObject(new UiSelector().className("android.widget." + type).text(text));
+        element.click();
         return Result.OK;
     }
 }

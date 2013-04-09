@@ -53,6 +53,14 @@ class Device
     adb "uninstall #{package_name}"
   end
 
+  def install_app(apk_location)
+    adb "install #{apk_location}"
+  end
+
+  def reboot
+    adb "reboot"
+  end
+
   def is_app_installed?(package_name)
     adb("shell pm list packages").include?(package_name)
   end
