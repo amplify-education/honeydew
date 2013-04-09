@@ -44,8 +44,9 @@ public class ActionsExecutor {
     private static Set<Class<? extends Action>> allActionClasses() {
         Set<Class<? extends Action>> actionClasses = newHashSet();
         actionClasses.add(LaunchApp.class);
+        actionClasses.add(LaunchHome.class);
         actionClasses.add(IsTextPresent.class);
-        actionClasses.add(ClickButton.class);
+        actionClasses.add(Click.class);
         actionClasses.add(SetText.class);
         actionClasses.add(DumpWindowHierarchy.class);
         actionClasses.add(SelectMenuInSettings.class);
