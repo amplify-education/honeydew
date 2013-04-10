@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+gem 'honeydew', :path => File.join(File.dirname(__FILE__), '..')
+gem 'cucumber'
+gem 'rake'

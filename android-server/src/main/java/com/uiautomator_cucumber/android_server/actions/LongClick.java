@@ -7,14 +7,14 @@ import com.uiautomator_cucumber.android_server.Result;
 
 import java.util.Map;
 
-public class Click extends Action {
-    public Click(UiDevice uiDevice) {
+public class LongClick extends Action {
+    public LongClick(UiDevice uiDevice) {
         super(uiDevice);
     }
 
     @Override
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
-        getUiObject(arguments).click();
+        getUiObject(arguments).longClick();
         return Result.OK;
     }
 }

@@ -1,3 +1,8 @@
+require 'bundler'
+require 'bundler/setup'
+require 'restclient'
+require 'active_support/core_ext'
+
 require "honeydew/version"
 require "honeydew/device"
 
