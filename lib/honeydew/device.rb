@@ -19,7 +19,7 @@ class Device
     log "Starting server in the device #{serial}"
     android_server_path = File.absolute_path(File.join(File.dirname(__FILE__), "../../android-server"))
     Thread.new do
-      system "cd #{android_server_path}; mvn clean install"
+      system "cd #{android_server_path}; mvn -q clean install -Dmaven.test.skip=true"
     end
 
     log "Forwarding port #{Honeydew.config.port} to device"

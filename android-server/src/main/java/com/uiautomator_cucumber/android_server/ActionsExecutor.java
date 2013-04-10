@@ -9,7 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Set;
 
-import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
 
 public class ActionsExecutor {
@@ -47,6 +46,7 @@ public class ActionsExecutor {
         actionClasses.add(LaunchHome.class);
         actionClasses.add(IsTextPresent.class);
         actionClasses.add(Click.class);
+        actionClasses.add(LongClick.class);
         actionClasses.add(SetText.class);
         actionClasses.add(DumpWindowHierarchy.class);
         actionClasses.add(SelectMenuInSettings.class);

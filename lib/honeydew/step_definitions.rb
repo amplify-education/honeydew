@@ -1,4 +1,4 @@
-ELEMENTS = {"button" => "Button", "text" => "TextView"}
+ELEMENTS = {"button" => "Button", "text" => "TextView", "edit text" => "EditText"}
 
 Given /^I launch app "(.*?)"$/ do |app_name|
   Honeydew.default_device.perform_action :action => "launch_app", :arguments => {:appName => app_name}, :attempts => 3
@@ -24,12 +24,24 @@ Given /^I enter text "(.*?)" into field with description "(.*?)"$/ do |text, fie
   Honeydew.default_device.perform_action :action => "set_text", :arguments => {:description => field_description, :text => text}
 end
 
-Given /^I press the "(.*?)" (button|text)$/ do |button_text,element_type|
+Given /^I press the "(.*?)" (button|text)$/ do |button_text, element_type|
   Honeydew.default_device.perform_action :action => "click", :arguments => {:text => button_text, :type => ELEMENTS[element_type]}
 end
 
+Given /^I press the element with description "(.*?)"$/ do |element_description|
+  Honeydew.default_device.perform_action :action => "click", :arguments => {:description => element_description}
+end
+
+Given /^I long press the element with description "(.*?)"$/ do |element_description|
+  Honeydew.default_device.perform_action :action => "long_click", :arguments => {:description => element_description}
+end
+
 When /^I wait up to (\d+) seconds for "(.*?)" to appear$/ do |timeout, text|
-  Honeydew.default_device.perform_action :action => "is_text_present", :arguments => {:text => text}, :retry_until => timeout
+  Honeydew.default_device.perform_action :action => "is_text_present", :arguments => {:text => text, :type => ELEMENTS['text']}, :retry_until => timeout
+end
+
+When /^I wait up to (\d+) seconds for "(.*?)" to appear in edit text$/ do |timeout, text|
+  Honeydew.default_device.perform_action :action => "is_text_present", :arguments => {:text => text, :type => ELEMENTS['edit text']}, :retry_until => timeout
 end
 
 Given /I uninstall the app "(.*?)" using ADB$/ do |pacakge_name|
