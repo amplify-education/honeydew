@@ -51,6 +51,7 @@ public class ActionsExecutor {
         actionClasses.add(DumpWindowHierarchy.class);
         actionClasses.add(SelectMenuInSettings.class);
         actionClasses.add(SelectFromAppsList.class);
+        actionClasses.add(Unlock.class);
         return actionClasses;
     }
 
