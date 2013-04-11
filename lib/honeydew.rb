@@ -36,6 +36,7 @@ module Honeydew
     def start_uiautomator_server(started_status=@started)
       return if started_status
       default_device.start_uiautomator_server
+      default_device.perform_action :action => "unlock"
       @started = true
     end
 

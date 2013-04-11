@@ -1,5 +1,9 @@
 ELEMENTS = {"button" => "Button", "text" => "TextView", "edit text" => "EditText"}
 
+Given /^I unlock$/ do
+  Honeydew.default_device.perform_action :action => "unlock"
+end
+
 Given /^I launch app "(.*?)"$/ do |app_name|
   Honeydew.default_device.perform_action :action => "launch_app", :arguments => {:appName => app_name}, :attempts => 3
 end
