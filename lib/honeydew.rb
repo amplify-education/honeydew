@@ -16,7 +16,7 @@ module Honeydew
   end
 
   class <<self
-    attr_accessor :config, :default_device, :started
+    attr_accessor :config
 
     def config
       return @config if @config
@@ -29,23 +29,39 @@ module Honeydew
       yield(@config) if block_given?
     end
 
+    def device_serial_list
+      `adb devices`.split("\n").drop(1).collect {|line| line.split[0].chomp}
+    end
+
+    def default_device_serial
+      device_serial_list.first
+    end
+
     def default_device
-      @default_device ||= Device.new
+      @default_device ||= device[default_device_serial]
     end
 
-    def start_uiautomator_server(started_status=@started)
-      return if started_status
-      default_device.start_uiautomator_server
-      default_device.perform_action :action => "unlock"
-      @started = true
+    def current_device
+      @current_device ||= default_device
     end
 
-    def terminate_uiautomator_server
-      default_device.terminate_uiautomator_server
+    def using_device(serial, &block)
+      original_device = current_device
+      use_device(serial).tap do |device|
+        device.instance_eval(&block) if block_given?
+      end
+    ensure
+      @current_device = original_device
     end
 
-    at_exit do
-      Honeydew.terminate_uiautomator_server if Honeydew.started
+    def use_device(serial)
+      @current_device = device[serial]
+    end
+
+    def device
+      @devices ||= Hash.new do |hash, serial|
+        hash[serial] = Device.new(serial)
+      end
     end
   end
 end
