@@ -8,10 +8,11 @@ require "honeydew/device"
 
 module Honeydew
   class Configuration
-    attr_accessor :port
+    attr_accessor :port, :timeout
 
     def initialize
       @port = 7120
+      @timeout = 30.seconds
     end
   end
 
