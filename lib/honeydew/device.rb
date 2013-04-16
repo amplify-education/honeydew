@@ -11,14 +11,47 @@ module Honeydew
     end
 
     def dump_window_hierarchy(local_path)
-      path_in_device = perform_action(:action => "dump_window_hierarchy")["description"]
+      path_in_device = perform_action(:action => 'dump_window_hierarchy')['description']
       adb "pull #{path_in_device} #{local_path}"
     end
 
     def take_screenshot(local_path)
-      path_in_device = "/data/local/tmp/honeydew.png"
+      path_in_device = '/data/local/tmp/honeydew.png'
       adb "shell /system/bin/screencap -p #{path_in_device}"
       adb "pull #{path_in_device} #{local_path}"
+    end
+
+    def unlock
+      perform_action :action => 'unlock'
+    end
+
+    def launch_home
+      perform_action :action => 'launch_home'
+    end
+    
+    def launch_application(application_name)
+      perform_action :action => 'launch_app', :arguments => {:appName => application_name}, :attempts => 3
+    end
+
+    def click_button(button_text)
+      perform_action :action => 'click', :arguments => {:text => button_text, :type => 'Button'}
+    end
+
+    def click_text(text)
+      perform_action :action => 'click', :arguments => {:text => text, :type => 'TextView'}
+    end
+
+    def click_element(element_description)
+      perform_action :action => 'click', :arguments => {:description => element_description}
+    end
+
+    def long_click_element(element_description)
+      # What is a long click?
+      perform_action :action => 'long_click', :arguments => {:description => element_description}
+    end
+
+    def fill_in field_description, options = {with: ''}
+      perform_action :action => 'set_text', :arguments => {:description => field_description, :text => options[:with]}
     end
 
     def uninstall_app(package_name)
@@ -34,11 +67,39 @@ module Honeydew
     end
 
     def reboot
-      adb "reboot"
+      adb 'reboot'
+    end
+
+    def launch_settings_app(app_name)
+      perform_action :action => 'select_from_apps_list', :arguments => {:appName => app_name}
+    end
+
+    def launch_settings_item(item_name)
+      perform_action :action => 'select_menu_in_settings', :arguments => {:menuName => item_name}
+    end
+
+    def has_text?(text)
+      perform_action(:action => 'is_text_present', :arguments => {:text => exp_text})['success']
+    end
+
+    def has_edit_text?(text, timeout = Honeydew.config.timeout)
+      perform_action :action => 'is_text_present', :arguments => {:text => text, :type => 'EditText'}, :retry_until => timeout
+    end
+
+    def has_textview_text?(text, timeout = Honeydew.config.timeout)
+      perform_action :action => 'is_text_present', :arguments => {:text => text, :type => 'TextView'}, :retry_until => timeout
+    end
+
+    def has_app_installed?(package_name)
+      adb('shell pm list packages').include?(package_name)
+    end
+
+    def has_button?(button_text, timeout = Honeydew.config.timeout)
+      perform_action(:action => 'is_button_present', :arguments => {:text => button_text}, :retry_until => timeout)
     end
 
     def is_app_installed?(package_name)
-      adb("shell pm list packages").include?(package_name)
+      has_app_installed?(package_name)
     end
 
     def perform_action(options)
@@ -57,7 +118,7 @@ module Honeydew
             execute_command(command)
           end
       log_action(command, response)
-      raise "Action #{options} failed." unless response["success"]
+      raise "Action #{options} failed." unless response['success']
       response
     end
 
@@ -77,14 +138,14 @@ module Honeydew
     end
 
     def terminate_uiautomator_server
-      log "Terminating server"
+      log 'Terminating server'
       JSON.parse(RestClient.get("#{device_endpoint}/terminate"))
     rescue
       # Swallow
     end
 
     def android_server_path
-      File.absolute_path(File.join(File.dirname(__FILE__), "../../android-server"))
+      File.absolute_path(File.join(File.dirname(__FILE__), '../../android-server'))
     end
     
     # FIXME: Android is the technology, not the purpose - this could have a better name. Automator server perhaps?
@@ -99,7 +160,7 @@ module Honeydew
     end
 
     def wait_for_android_server
-      log "Waiting for server to come up"
+      log 'Waiting for server to come up'
       retriable :on => [RestClient::ServerBrokeConnection, Errno::ECONNRESET, Errno::ECONNREFUSED], :interval => 5, :tries => 12 do
         RestClient.head device_endpoint
       end
@@ -126,7 +187,7 @@ module Honeydew
       tries = 0
       until completed || (tries >= attempts) do
         response = execute_command(command)
-        completed = response["success"]
+        completed = response['success']
         return response if completed
         tries += 1
         sleep 1
@@ -143,7 +204,7 @@ module Honeydew
         until completed do
           sleep 1
           response = execute_command(command)
-          completed = response["success"]
+          completed = response['success']
         end
       end
       return response
