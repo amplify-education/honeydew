@@ -1,41 +1,13 @@
 class Device
   attr_reader :serial
 
-  def initialize
-    connected_device_serial.tap do |serial|
-      if serial.to_s.empty?
-        log "No devices connected"
-        exit(1)
-      end
-      @serial = serial
+  def initialize(serial)
+    puts "Connecting to device: #{serial}"
+    if serial.to_s.empty?
+      raise ArgumentError, 'HoneyDew: Invalid serial or no device connected'
     end
-  end
-
-  def connected_device_serial
-    `adb devices | sed -n 2p | awk '{ print $1 }'`.strip
-  end
-
-  def start_uiautomator_server
-    log "Starting server in the device #{serial}"
-    android_server_path = File.absolute_path(File.join(File.dirname(__FILE__), "../../android-server"))
-    Thread.new do
-      system "cd #{android_server_path}; mvn -q clean install -Dmaven.test.skip=true"
-    end
-
-    log "Forwarding port #{Honeydew.config.port} to device"
-    adb "forward tcp:#{Honeydew.config.port} tcp:#{Honeydew.config.port}"
-
-    log "Waiting for server to comeup"
-    retriable :on => [RestClient::ServerBrokeConnection, Errno::ECONNRESET, Errno::ECONNREFUSED], :interval => 5, :tries => 12 do
-      RestClient.head device_endpoint
-    end
-  end
-
-  def terminate_uiautomator_server
-    log "Terminating server"
-    JSON.parse(RestClient.get("#{device_endpoint}/terminate"))
-  rescue Exception
-    # Swallow
+    @serial = serial
+    start_uiautomator_server
   end
 
   def dump_window_hierarchy(local_path)
@@ -57,6 +29,10 @@ class Device
     adb "install #{apk_location}"
   end
 
+  def clear_app_data(package_name)
+    adb "shell pm clear #{package_name}"
+  end
+
   def reboot
     adb "reboot"
   end
@@ -66,6 +42,8 @@ class Device
   end
 
   def perform_action(options)
+    ensure_tablet_ready
+
     command = options.slice(:action, :arguments)
     timeout = options[:retry_until]
     attempts = options[:attempts]
@@ -84,6 +62,53 @@ class Device
   end
 
   private
+
+  def ensure_tablet_ready
+    @device_ready ||= begin
+                        wait_for_android_server
+                        true
+                      end
+  end
+
+  def start_uiautomator_server
+    log "Starting server on the device with serial #{serial}"
+    build_and_start_android_server
+    forwarding_port
+  end
+
+  def terminate_uiautomator_server
+    log "Terminating server"
+    JSON.parse(RestClient.get("#{device_endpoint}/terminate"))
+  rescue
+    # Swallow
+  end
+
+  def android_server_path
+    File.absolute_path(File.join(File.dirname(__FILE__), "../../android-server"))
+  end
+  
+  # FIXME: Android is the technology, not the purpose - this could have a better name. Automator server perhaps?
+  def build_and_start_android_server
+    Thread.new do
+      # FIXME: Surely this can be done as part of the gem install process, i.e. only start the server here
+      system "cd #{android_server_path}; mvn -q clean install -Dmaven.test.skip=true -e"
+    end
+    at_exit do
+      terminate_uiautomator_server
+    end
+  end
+
+  def wait_for_android_server
+    log "Waiting for server to come up"
+    retriable :on => [RestClient::ServerBrokeConnection, Errno::ECONNRESET, Errno::ECONNREFUSED], :interval => 5, :tries => 12 do
+      RestClient.head device_endpoint
+    end
+  end
+
+  def forwarding_port
+    log "Forwarding port #{Honeydew.config.port} to device"
+    adb "forward tcp:#{Honeydew.config.port} tcp:#{Honeydew.config.port}"
+  end
 
   def adb(command)
     adb_command = "adb -s #{serial} #{command}"
@@ -128,7 +153,8 @@ class Device
   end
 
   def execute_command(command)
-    JSON.parse(RestClient.get(device_endpoint, :params => stringify_keys(:command => command)))
+    response = RestClient.get(device_endpoint, :params => stringify_keys(:command => command))
+    JSON.parse(response)
   end
 
   def log_action(command, response)
