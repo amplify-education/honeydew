@@ -14,6 +14,10 @@ module Honeydew
       @port = 7120
       @timeout = 30.seconds
     end
+
+    def obtain_new_port
+      @port.tap { @port += 1 }
+    end
   end
 
   class <<self
