@@ -1,11 +1,12 @@
 module Honeydew
   class Device
-    attr_reader :serial
+    attr_reader :serial, :port
 
     def initialize(serial)
       if serial.to_s.empty?
         raise ArgumentError, 'HoneyDew: Invalid serial or no device connected'
       end
+      @port = Honeydew.config.obtain_new_port
       @serial = serial
       start_uiautomator_server
     end
@@ -54,6 +55,10 @@ module Honeydew
       perform_action :action => 'set_text', :arguments => {:description => field_description, :text => options[:with]}
     end
 
+    def fill_in_by_label field_label, options = {with: ''}
+      perform_action :action => 'set_text_by_label', :arguments => {:label => field_label, :text => options[:with]}
+    end
+
     def uninstall_app(package_name)
       adb "uninstall #{package_name}"
     end
@@ -78,8 +83,8 @@ module Honeydew
       perform_action :action => 'select_menu_in_settings', :arguments => {:menuName => item_name}
     end
 
-    def has_text?(text)
-      perform_action(:action => 'is_text_present', :arguments => {:text => exp_text})['success']
+    def has_text?(expected_text, timeout = Honeydew.config.timeout)
+      perform_action(:action => 'is_text_present', :arguments => {:text => expected_text}, :retry_until => timeout)['success']
     end
 
     def has_edit_text?(text, timeout = Honeydew.config.timeout)
@@ -167,8 +172,8 @@ module Honeydew
     end
 
     def forwarding_port
-      log "Forwarding port #{Honeydew.config.port} to device"
-      adb "forward tcp:#{Honeydew.config.port} tcp:#{Honeydew.config.port}"
+      log "Forwarding port #{port} to device"
+      adb "forward tcp:#{port} tcp:#{port}"
     end
 
     def adb(command)
@@ -178,7 +183,7 @@ module Honeydew
     end
 
     def device_endpoint
-      "http://localhost:#{Honeydew.config.port}"
+      "http://localhost:#{port}"
     end
 
     def retry_until_success(attempts, command)

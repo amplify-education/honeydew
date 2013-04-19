@@ -48,6 +48,7 @@ public class ActionsExecutor {
         actionClasses.add(Click.class);
         actionClasses.add(LongClick.class);
         actionClasses.add(SetText.class);
+        actionClasses.add(SetTextByLabel.class);
         actionClasses.add(DumpWindowHierarchy.class);
         actionClasses.add(SelectMenuInSettings.class);
         actionClasses.add(SelectFromAppsList.class);
