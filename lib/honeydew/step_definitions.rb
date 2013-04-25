@@ -10,6 +10,10 @@ Given /^I launch home$/ do
   Honeydew.current_device.launch_home
 end
 
+When /^I press back$/ do
+  Honeydew.current_device.press_back
+end
+
 Given /^I select "(.*?)" in the Settings view$/ do |menu_item|
   Honeydew.current_device.launch_settings_item menu_item
 end
@@ -18,8 +22,8 @@ Given /^I select app "(.*?)" from the Apps list in the Settings view$/ do |app_n
   Honeydew.current_device.launch_settings_app app_name
 end
 
-Given /^I should see text containing "(.*?)"$/ do |expected_test|
-  Honeydew.current_device.should have_text? expected_text
+Given /^I should see text containing "(.*?)"$/ do |expected_text|
+  Honeydew.current_device.should have_textview_text expected_text
 end
 
 Given /^I enter text "(.*?)" into field with description "(.*?)"$/ do |text, field_description|

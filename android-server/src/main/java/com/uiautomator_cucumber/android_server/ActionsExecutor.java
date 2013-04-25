@@ -44,6 +44,7 @@ public class ActionsExecutor {
         Set<Class<? extends Action>> actionClasses = newHashSet();
         actionClasses.add(LaunchApp.class);
         actionClasses.add(LaunchHome.class);
+        actionClasses.add(PressBack.class);
         actionClasses.add(IsTextPresent.class);
         actionClasses.add(Click.class);
         actionClasses.add(LongClick.class);
