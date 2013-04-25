@@ -29,6 +29,10 @@ module Honeydew
     def launch_home
       perform_action :action => 'launch_home'
     end
+
+    def press_back
+      perform_action :action => 'press_back'
+    end
     
     def launch_application(application_name)
       perform_action :action => 'launch_app', :arguments => {:appName => application_name}, :attempts => 3
@@ -125,6 +129,11 @@ module Honeydew
       log_action(command, response)
       raise "Action #{options} failed." unless response['success']
       response
+    end
+
+    def clear_directory(directory)
+      all_files_in_directory_path = [directory.chomp('/'), '/*'].join
+      adb "shell rm -r #{all_files_in_directory_path}"
     end
 
     private
