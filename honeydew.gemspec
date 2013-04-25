@@ -12,13 +12,14 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Automated functional testing on Android with uiautomator and cucumber}
   spec.homepage      = ""
 
-  spec.files         = `git ls-files`.split($/) + Dir['android-server']
+  spec.files         = `git ls-files`.split($/) + Dir['android-server/target/*.jar']
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
 
   spec.add_dependency("cucumber")
   spec.add_dependency("json")

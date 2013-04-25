@@ -46,10 +46,13 @@ public class ActionsExecutor {
         actionClasses.add(LaunchHome.class);
         actionClasses.add(PressBack.class);
         actionClasses.add(IsTextPresent.class);
+        actionClasses.add(IsButtonPresent.class);
         actionClasses.add(Click.class);
+        actionClasses.add(ClickAndWaitForNewWindow.class);
         actionClasses.add(LongClick.class);
         actionClasses.add(SetText.class);
         actionClasses.add(SetTextByLabel.class);
+        actionClasses.add(SetTextByIndex.class);
         actionClasses.add(DumpWindowHierarchy.class);
         actionClasses.add(SelectMenuInSettings.class);
         actionClasses.add(SelectFromAppsList.class);

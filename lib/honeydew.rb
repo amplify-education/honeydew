@@ -12,7 +12,7 @@ module Honeydew
 
     def initialize
       @port = 7120
-      @timeout = 30.seconds
+      @timeout = 5.seconds
     end
 
     def obtain_new_port
@@ -34,12 +34,12 @@ module Honeydew
       yield(@config) if block_given?
     end
 
-    def device_serial_list
+    def attached_devices
       `adb devices`.split("\n").drop(1).collect {|line| line.split[0].chomp}
     end
 
     def default_device_serial
-      device_serial_list.first
+      attached_devices.first
     end
 
     def default_device
@@ -65,7 +65,7 @@ module Honeydew
 
     def device
       @devices ||= Hash.new do |hash, serial|
-        hash[serial] = Device.new(serial)
+        hash[serial] = Device.new(serial) if attached_devices.include?(serial)
       end
     end
   end
