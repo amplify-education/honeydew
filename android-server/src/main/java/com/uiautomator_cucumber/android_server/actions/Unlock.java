@@ -16,7 +16,8 @@ public class Unlock extends Action {
 
     @Override
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
-        UiObject uiObject = new UiObject(new UiSelector().className("android.view.View"));
+        UiObject uiObject = new UiObject(new UiSelector().description("Slide area."));
+        uiObject = uiObject.exists() ? uiObject : new UiObject(new UiSelector().className("android.view.View"));
         try {
             if (uiObject.exists()) {
                 uiObject.swipeRight(100);
