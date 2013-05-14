@@ -47,6 +47,7 @@ public class ActionsExecutor {
         actionClasses.add(PressBack.class);
         actionClasses.add(IsTextPresent.class);
         actionClasses.add(IsButtonPresent.class);
+        actionClasses.add(IsElementWithNestedTextPresent.class);
         actionClasses.add(Click.class);
         actionClasses.add(ClickAndWaitForNewWindow.class);
         actionClasses.add(LongClick.class);

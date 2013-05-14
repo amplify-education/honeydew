@@ -17,6 +17,10 @@ module Honeydew
       perform_action(:action => 'is_button_present', :arguments => {:text => button_text}, :retry_until => timeout)
     end
 
+    def has_element_with_nested_text?(parent_description, child_text, timeout = Honeydew.config.timeout)
+      perform_action(:action => 'is_element_with_nested_text_present', :arguments => {:parent_description => parent_description, :child_text => child_text}, :retry_until => timeout)
+    end
+
     def has_app_installed?(package_name)
       adb('shell pm list packages').include?(package_name)
     end
