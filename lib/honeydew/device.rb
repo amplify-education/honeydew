@@ -24,6 +24,13 @@ module Honeydew
       false
     end
 
+    def contains_element_with_description?(description, timeout = Honeydew.config.timeout)
+      response = has_element_with_description? description, timeout
+      response['success']
+    rescue
+      false
+    end
+
     def contains_button?(text, timeout = Honeydew.config.timeout)
       response = has_button? text, timeout
       response['success']
