@@ -57,6 +57,8 @@ public class ActionsExecutor {
         actionClasses.add(SetTextByIndex.class);
         actionClasses.add(DumpWindowHierarchy.class);
         actionClasses.add(SelectMenuInSettings.class);
+        actionClasses.add(IsOptionInSettingsMenuEnabled.class);
+        actionClasses.add(IsOptionInSettingsMenuDisabled.class);
         actionClasses.add(SelectFromAppsList.class);
         actionClasses.add(Unlock.class);
         return actionClasses;
