@@ -33,5 +33,13 @@ module Honeydew
       adb('shell pm list packages').include?(package_name)
     end
 
+    def is_option_in_setting_enabled?(item_name, option_names)
+      perform_action :action => 'is_option_in_settings_menu_enabled', :arguments => {:menuName => item_name, :optionNames => option_names}
+    end
+
+    def is_option_in_setting_disabled?(item_name, option_names)
+      perform_action :action => 'is_option_in_settings_menu_disabled', :arguments => {:menuName => item_name, :optionNames => option_names}
+    end
+
   end
 end
