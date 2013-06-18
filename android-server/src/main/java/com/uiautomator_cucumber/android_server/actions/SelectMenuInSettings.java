@@ -14,8 +14,7 @@ public class SelectMenuInSettings extends Action {
     @Override
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
         String menuName = (String) arguments.get("menuName");
-        UiScrollable settingsMenu = new UiScrollable(new UiSelector().scrollable(true));
-        settingsMenu.setAsHorizontalList();
+        UiScrollable settingsMenu = new UiScrollable(new UiSelector().scrollable(true).focused(true));
 
         (settingsMenu.getChildByText(new UiSelector().className(android.widget.TextView.class.getName()),menuName)).click();
         return Result.OK;

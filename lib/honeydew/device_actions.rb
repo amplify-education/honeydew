@@ -60,6 +60,14 @@ module Honeydew
       perform_action :action => 'select_menu_in_settings', :arguments => {:menuName => item_name}
     end
 
+    def is_option_in_setting_enabled(item_name, option_names)
+      perform_action :action => 'is_option_in_settings_menu_enabled', :arguments => {:menuName => item_name, :optionNames => option_names}
+    end
+
+    def is_option_in_setting_disabled(item_name, option_names)
+      perform_action :action => 'is_option_in_settings_menu_disabled', :arguments => {:menuName => item_name, :optionNames => option_names}
+    end
+
     def press_back
       perform_action :action => 'press_back'
     end
