@@ -45,6 +45,8 @@ public class ActionsExecutor {
         actionClasses.add(LaunchApp.class);
         actionClasses.add(LaunchHome.class);
         actionClasses.add(PressBack.class);
+        actionClasses.add(PressEnter.class);
+        actionClasses.add(WakeUp.class);
         actionClasses.add(IsTextPresent.class);
         actionClasses.add(IsButtonPresent.class);
         actionClasses.add(IsElementWithNestedTextPresent.class);
