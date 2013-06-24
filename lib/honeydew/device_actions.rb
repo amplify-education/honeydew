@@ -65,8 +65,16 @@ module Honeydew
       perform_action :action => 'press_back'
     end
 
+    def press_enter
+      perform_action :action => 'press_enter'
+    end
+
     def unlock
       perform_action :action => 'unlock'
+    end
+
+    def wake_up
+      perform_action :action => 'wake_up'
     end
 
     def perform_action(options)
