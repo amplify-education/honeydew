@@ -17,6 +17,10 @@ module Honeydew
       perform_action :action => 'is_text_present', :arguments => {:text => text, :type => 'TextView'}, :retry_until => timeout
     end
 
+    def has_textview_with_text_and_description?(text, description, timeout=Honeydew.config.timeout)
+      perform_action :action => 'is_text_present', :arguments => {:text => text, :description => description, :type => 'TextView'}, :retry_until => timeout
+    end
+
     def has_button?(button_text, timeout = Honeydew.config.timeout)
       perform_action(:action => 'is_button_present', :arguments => {:text => button_text}, :retry_until => timeout)
     end
