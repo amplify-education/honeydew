@@ -61,6 +61,7 @@ public class ActionsExecutor {
         actionClasses.add(SelectMenuInSettings.class);
         actionClasses.add(IsOptionInSettingsMenuEnabled.class);
         actionClasses.add(IsOptionInSettingsMenuDisabled.class);
+        actionClasses.add(HasSettingsMenuItem.class);
         actionClasses.add(SelectFromAppsList.class);
         actionClasses.add(Unlock.class);
         return actionClasses;
