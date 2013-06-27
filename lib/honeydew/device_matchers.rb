@@ -41,5 +41,8 @@ module Honeydew
       perform_action :action => 'is_option_in_settings_menu_disabled', :arguments => {:menuName => item_name, :optionNames => option_names}
     end
 
+    def has_settings_menu_item?(item_name, timeout = 10)
+      perform_action(:action => 'has_settings_menu_item', :arguments => {:menuName => item_name}, :retry_until => timeout)
+    end
   end
 end
