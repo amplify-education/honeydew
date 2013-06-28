@@ -1,3 +1,3 @@
 module Honeydew
-  VERSION = "0.1.4"
+  VERSION = "0.10.0"
 end
