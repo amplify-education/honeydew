@@ -18,24 +18,15 @@ module Honeydew
     end
 
     def contains_textview_text?(text, timeout = Honeydew.config.timeout)
-      response = has_textview_text? text, timeout
-      response['success']
-    rescue
-      false
+      has_textview_text? text, timeout
     end
 
     def contains_element_with_description?(description, timeout = Honeydew.config.timeout)
-      response = has_element_with_description? description, timeout
-      response['success']
-    rescue
-      false
+       has_element_with_description? description, timeout
     end
 
     def contains_button?(text, timeout = Honeydew.config.timeout)
-      response = has_button? text, timeout
-      response['success']
-    rescue
-      false
+      has_button? text, timeout
     end
 
     def is_app_installed?(package_name)
