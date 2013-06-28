@@ -1,4 +1,4 @@
-Copyright (c) 2013 Selva
+Copyright (c) 2013 Amplify Inc.
 
 MIT License
 
