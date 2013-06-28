@@ -41,7 +41,7 @@ module Honeydew
     def start_automation_server
       Thread.new do
         adb "push #{automation_server_jar_path} /data/local/tmp"
-        adb "shell uiautomator runtest #{automation_test_jar_name} -c com.uiautomator_cucumber.android_server.TestRunner"
+        adb "shell uiautomator runtest #{automation_test_jar_name} -c com.amplify.honeydew_server.TestRunner"
         log "Device: #{serial} initiated the start of automation server"
       end
       at_exit do
