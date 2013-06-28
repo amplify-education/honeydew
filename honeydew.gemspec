@@ -6,10 +6,10 @@ require 'honeydew/version'
 Gem::Specification.new do |spec|
   spec.name          = "honeydew"
   spec.version       = Honeydew::VERSION
-  spec.authors       = ["Selva", "Christopher Rex"]
-  spec.email         = ["scmp-team@amplify.com"]
-  spec.description   = %q{Automated functional testing on Android with uiautomator and cucumber}
-  spec.summary       = %q{Automated functional testing on Android with uiautomator and cucumber}
+  spec.authors       = ["Selvakumar Natesan", "Christopher Rex", "Shyam Vala", "John Barker"]
+  spec.email         = ["scmp-team@amplify.com", "jbarker@amplify.com"]
+  spec.description   = %q{Automated functional testing on Android with uiautomator}
+  spec.summary       = %q{Automated functional testing on Android with uiautomator}
   spec.homepage      = ""
 
   spec.files         = `git ls-files`.split($/) + Dir['android-server/target/*.jar']
