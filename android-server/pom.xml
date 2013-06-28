@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>uiautomator-cucumber</groupId>
-    <artifactId>android-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <groupId>amplify</groupId>
+    <artifactId>honeydew-server</artifactId>
+    <version>0.10.0</version>
     <packaging>jar</packaging>
-    <name>UIAutomator Cucumber - Android Server</name>
+    <name>Honeydew Android Server</name>
 
     <properties>
         <platform.version>4.1.1.4</platform.version>
@@ -105,7 +105,7 @@
                         <skip>false</skip>
                         <testClassOrMethods>
                             <testClassOrMethod>
-                                com.uiautomator_cucumber.android_server.TestRunner
+                                com.amplify.honeydew.TestRunner
                             </testClassOrMethod>
                         </testClassOrMethods>
                         <createReport>true</createReport>

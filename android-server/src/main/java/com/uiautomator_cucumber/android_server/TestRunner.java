@@ -1,9 +1,9 @@
-package com.uiautomator_cucumber.android_server;
+package com.amplify.honeydew;
 
 import android.view.KeyEvent;
 import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
-import com.uiautomator_cucumber.android_server.httpd.RemoteCommandReceiver;
+import com.amplify.honeydew.httpd.RemoteCommandReceiver;
 
 public class TestRunner extends UiAutomatorTestCase {
 
