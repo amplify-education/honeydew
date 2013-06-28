@@ -8,9 +8,11 @@ Gem::Specification.new do |spec|
   spec.version       = Honeydew::VERSION
   spec.authors       = ["Selvakumar Natesan", "Christopher Rex", "Shyam Vala", "John Barker"]
   spec.email         = ["scmp-team@amplify.com", "jbarker@amplify.com"]
-  spec.description   = %q{Automated functional testing on Android with uiautomator}
-  spec.summary       = %q{Automated functional testing on Android with uiautomator}
-  spec.homepage      = ""
+  spec.summary       = %q{Ruby DSL for controlling Android devices}
+  spec.description   = <<-EOF
+Honeydew is a Ruby driver for UIAutomator which enables automated testing of
+Android devices.
+  EOF
 
   spec.files         = `git ls-files`.split($/) + Dir['android-server/target/*.jar']
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
