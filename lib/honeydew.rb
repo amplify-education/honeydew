@@ -3,8 +3,8 @@ require 'bundler/setup'
 require 'restclient'
 require 'active_support/core_ext'
 
-require "honeydew/version"
-require "honeydew/device"
+require 'honeydew/version'
+require 'honeydew/device'
 
 module Honeydew
   class Configuration
