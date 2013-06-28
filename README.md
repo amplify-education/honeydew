@@ -1,5 +1,7 @@
 # Honeydew
 
+NOTE: Honeydew is currently in alpha and is not quite ready for use.
+
 Honeydew is a Ruby driver for UIAutomator which enables automated testing of
 Android devices.
 
