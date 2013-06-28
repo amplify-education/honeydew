@@ -1,4 +1,4 @@
-package com.uiautomator_cucumber.android_server;
+package com.amplify.honeydew;
 
 import java.util.Map;
 

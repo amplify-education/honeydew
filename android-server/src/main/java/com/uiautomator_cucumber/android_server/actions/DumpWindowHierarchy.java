@@ -1,9 +1,9 @@
-package com.uiautomator_cucumber.android_server.actions;
+package com.amplify.honeydew.actions;
 
 import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.core.UiObjectNotFoundException;
-import com.uiautomator_cucumber.android_server.Action;
-import com.uiautomator_cucumber.android_server.Result;
+import com.amplify.honeydew.Action;
+import com.amplify.honeydew.Result;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

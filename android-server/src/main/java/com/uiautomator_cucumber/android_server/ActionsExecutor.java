@@ -1,8 +1,8 @@
-package com.uiautomator_cucumber.android_server;
+package com.amplify.honeydew;
 
 import android.util.Log;
 import com.android.uiautomator.core.UiDevice;
-import com.uiautomator_cucumber.android_server.actions.*;
+import com.amplify.honeydew.actions.*;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

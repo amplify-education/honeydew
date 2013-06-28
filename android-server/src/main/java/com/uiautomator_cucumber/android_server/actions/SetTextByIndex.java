@@ -1,8 +1,8 @@
-package com.uiautomator_cucumber.android_server.actions;
+package com.amplify.honeydew.actions;
 
 import android.util.*;
 import com.android.uiautomator.core.*;
-import com.uiautomator_cucumber.android_server.*;
+import com.amplify.honeydew.*;
 
 import java.util.*;
 

@@ -1,10 +1,10 @@
-package com.uiautomator_cucumber.android_server.httpd;
+package com.amplify.honeydew.httpd;
 
 import android.util.Log;
 import com.google.gson.Gson;
-import com.uiautomator_cucumber.android_server.ActionsExecutor;
-import com.uiautomator_cucumber.android_server.Command;
-import com.uiautomator_cucumber.android_server.Result;
+import com.amplify.honeydew.ActionsExecutor;
+import com.amplify.honeydew.Command;
+import com.amplify.honeydew.Result;
 
 import java.io.File;
 import java.io.IOException;

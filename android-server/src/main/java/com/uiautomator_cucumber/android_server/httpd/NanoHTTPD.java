@@ -1,4 +1,4 @@
-package com.uiautomator_cucumber.android_server.httpd;
+package com.amplify.honeydew.httpd;
 
 import java.io.*;
 import java.net.ServerSocket;

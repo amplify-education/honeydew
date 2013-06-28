@@ -1,4 +1,4 @@
-package com.uiautomator_cucumber.android_server.actions;
+package com.amplify.honeydew.actions;
 
 import com.android.uiautomator.core.UiDevice;
 

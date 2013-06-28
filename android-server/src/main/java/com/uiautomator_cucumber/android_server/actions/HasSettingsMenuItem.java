@@ -1,9 +1,9 @@
-package com.uiautomator_cucumber.android_server.actions;
+package com.amplify.honeydew.actions;
 
 import android.widget.TextView;
 import com.android.uiautomator.core.*;
-import com.uiautomator_cucumber.android_server.Action;
-import com.uiautomator_cucumber.android_server.Result;
+import com.amplify.honeydew.Action;
+import com.amplify.honeydew.Result;
 
 import java.util.List;
 import java.util.Map;
