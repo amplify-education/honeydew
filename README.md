@@ -1,6 +1,7 @@
 # Honeydew
 
-TODO: Write a gem description
+Honeydew is a Ruby driver for UIAutomator which enables automated testing of
+Android devices.
 
 ## Installation
 
