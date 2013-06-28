@@ -6,7 +6,7 @@ module Honeydew
     end
 
     def dump_window_hierarchy(local_path)
-      path_in_device = perform_action(:action => 'dump_window_hierarchy')['description']
+      path_in_device = perform_action('dump_window_hierarchy')['description']
       adb "pull #{path_in_device} #{local_path}"
     end
 
