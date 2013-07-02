@@ -1,8 +1,20 @@
+require 'net/http'
+require 'uri'
+
 module Honeydew
   module DeviceCommands
 
-    def device_endpoint
-      "http://127.0.0.1:#{port}"
+    def is_app_installed?(package_name)
+      has_app_installed?(package_name)
+    end
+
+    def clear_directory(directory)
+      all_files_in_directory_path = [directory.chomp('/'), '/*'].join
+      adb "shell rm -r #{all_files_in_directory_path}"
+    end
+
+    def device_endpoint action
+      URI.join("http://localhost:#{port}", action)
     end
 
     def dump_window_hierarchy(local_path)
@@ -16,41 +28,39 @@ module Honeydew
       adb "pull #{path_in_device} #{local_path}"
     end
 
-    def start_uiautomator_server
+    def start_honeydew_server
       forwarding_port
-      terminate_uiautomator_server
-      log "Device: #{serial} : Starting server on the device"
+      terminate_honeydew_server
       start_automation_server
     end
 
-    def terminate_uiautomator_server
-      log 'Terminating server'
-      RestClient.get("#{device_endpoint}/terminate")
-    rescue
+    def terminate_honeydew_server
+      log "terminating honeydew-server"
+      Net::HTTP.post_form device_endpoint('/terminate'), {}
+    rescue Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError
       # Swallow
     end
 
-    def automation_test_jar_name
-      "android-server-0.0.1-SNAPSHOT.jar"
+    def honeydew_server_package
+      "honeydew-server-#{Honeydew::VERSION}.jar"
     end
 
-    def automation_server_jar_path
-      File.absolute_path(File.join(File.dirname(__FILE__), "../../android-server/target/#{automation_test_jar_name}"))
+    def honeydew_server_file
+      File.absolute_path(File.join(File.dirname(__FILE__), "../../server/target/#{honeydew_server_package}"))
     end
 
     def start_automation_server
+      log "starting honeydew-server on the device"
       Thread.new do
-        adb "push #{automation_server_jar_path} /data/local/tmp"
-        adb "shell uiautomator runtest #{automation_test_jar_name} -c com.amplify.honeydew_server.TestRunner"
-        log "Device: #{serial} initiated the start of automation server"
+        adb "push #{honeydew_server_file} /data/local/tmp"
+        adb "shell uiautomator runtest #{honeydew_server_package} -c com.amplify.honeydew_server.TestRunner"
       end
       at_exit do
-        terminate_uiautomator_server
+        terminate_honeydew_server
       end
     end
 
     def forwarding_port
-      log "Device: #{serial} : Forwarding port #{port} to device"
       adb "forward tcp:#{port} tcp:7120"
     end
 
@@ -76,9 +86,8 @@ module Honeydew
 
     def adb(command)
       adb_command = "adb -s #{serial} #{command}"
-      log "Device: #{serial} :Executing '#{adb_command}'"
-      `#{adb_command}`.tap { raise 'ADB command failed' unless $?.success? }
+      log "executing '#{adb_command}'"
+      `#{adb_command} 2>/dev/null`.tap { raise 'ADB command failed' unless $?.success? }
     end
-
   end
 end

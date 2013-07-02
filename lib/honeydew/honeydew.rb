@@ -1,4 +1,3 @@
-require 'restclient'
 require 'active_support/core_ext'
 
 require 'honeydew/version'
@@ -6,11 +5,16 @@ require 'honeydew/device'
 
 module Honeydew
   class Configuration
-    attr_accessor :port, :timeout
+    attr_accessor :debug,
+      :server_timeout,
+      :timeout,
+      :port
 
     def initialize
       @port = 7120
+      @debug = true
       @timeout = 5.seconds
+      @server_timeout = 30.seconds
     end
 
     def obtain_new_port

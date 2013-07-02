@@ -15,7 +15,7 @@ describe Honeydew::DeviceMatchers do
       device.should_receive(:perform_assertion)
         .with(:is_text_present,
               hash_including(text: text, type: 'TextView'),
-              timeout: Honeydew.config.timeout)
+              timeout: nil)
 
       device.has_textview_text? text
     end
@@ -29,7 +29,7 @@ describe Honeydew::DeviceMatchers do
       device.should_receive(:perform_assertion)
         .with(:is_text_present,
               hash_including(text: text, type: 'TextView'),
-              timeout: Honeydew.config.timeout)
+              timeout: nil)
 
       device.has_textview_with_text_and_description? text, description
     end
