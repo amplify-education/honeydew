@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Honeydew::Device, :silence_puts do
+describe Honeydew::Device do
   let(:response) { '{"success": true }' }
   let(:device)   { Honeydew::Device.new('ABC123DEF') }
   let(:device_end_point) do
@@ -8,7 +8,7 @@ describe Honeydew::Device, :silence_puts do
   end
 
   before do
-    RestClient.stub(:get).and_return(response)
+    Net::HTTP.stub(:post_form).and_return(response)
   end
 
   describe '#contains_textview_text?' do
@@ -19,7 +19,7 @@ describe Honeydew::Device, :silence_puts do
     end
 
     it 'should make the call with command is_text_present' do
-      RestClient.should_receive(:get).with(device_end_point, params: {'command' => command})
+      Net::HTTP.should_receive(:post_form).with(device_end_point, params: {'command' => command})
       device.contains_textview_text?(text)
     end
 
@@ -45,7 +45,7 @@ describe Honeydew::Device, :silence_puts do
     let(:command)  { {'action' => 'is_button_present', 'arguments' => {'text' => text}} }
 
     it 'should make the call with command is_button_present' do
-      RestClient.should_receive(:get).with(device_end_point, params: {'command' => command})
+      Net::HTTP.should_receive(:post_form).with(device_end_point, params: {'command' => command})
       device.contains_button?(text)
     end
 

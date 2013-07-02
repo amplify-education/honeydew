@@ -1,54 +1,40 @@
 module Honeydew
   module DeviceMatchers
-    def has_text?(text, timeout = Honeydew.config.timeout)
-      perform_assertion :is_text_present,
-        {:text => text},
-        :timeout => timeout
+    def has_text?(text)
+      perform_assertion :is_text_present, :text => text
     end
 
-    def has_element_with_description?(description, timeout = Honeydew.config.timeout)
-      perform_assertion :is_text_present,
-        {:description => description},
-        :timeout => timeout
+    def has_element_with_description?(description)
+      perform_assertion :is_text_present, :description => description
     end
 
-    def has_edit_text?(text, timeout = Honeydew.config.timeout)
-      perform_assertion :is_text_present,
-        {:text => text, :type => 'EditText'},
-        :timeout => timeout
+    def has_edit_text?(text)
+      perform_assertion :is_text_present, :text => text, :type => 'EditText'
     end
 
-    def has_textview_text?(text, timeout = Honeydew.config.timeout)
-      perform_assertion :is_text_present,
-        {:text => text, :type => 'TextView'},
-        :timeout => timeout
+    def has_textview_text?(text)
+      perform_assertion :is_text_present, :text => text, :type => 'TextView'
     end
 
-    def has_textview_with_text_and_description?(text, description, timeout = Honeydew.config.timeout)
-      perform_assertion :is_text_present,
-        {:text => text, :description => description, :type => 'TextView'},
-        :timeout => timeout
+    def has_textview_with_text_and_description?(text, description)
+      perform_assertion :is_text_present, :text => text, :description => description, :type => 'TextView'
     end
 
-    def has_button?(button_text, timeout = Honeydew.config.timeout)
-      perform_assertion :is_button_present,
-        {:text => button_text},
-        :timeout => timeout
+    def has_button?(button_text)
+      perform_assertion :is_button_present, :text => button_text
     end
 
-    def has_child_count?(parent_element_description, child_element_description, child_count, timeout = Honeydew.config.timeout)
+    def has_child_count?(parent_element_description, child_element_description, child_count)
       perform_assertion :is_child_count_equal_to,
-        {:parent_description => parent_element_description,
+        :parent_description => parent_element_description,
          :child_description => child_element_description,
-         :child_count => child_count},
-        :timeout => timeout
+         :child_count => child_count
     end
 
-    def has_element_with_nested_text?(parent_description, child_text, timeout = Honeydew.config.timeout)
+    def has_element_with_nested_text?(parent_description, child_text)
       perform_assertion :is_element_with_nested_text_present,
-        {:parent_description => parent_description,
-         :child_text => child_text},
-        :timeout => timeout
+        :parent_description => parent_description,
+         :child_text => child_text
     end
 
     def has_app_installed?(package_name)
@@ -65,10 +51,9 @@ module Honeydew
         :menuName => item_name, :optionNames => option_names
     end
 
-    def has_settings_menu_item?(item_name, timeout = 10)
+    def has_settings_menu_item?(item_name)
       perform_assertion :has_settings_menu_item,
-        {:menuName => item_name},
-        :timeout => timeout
+        :menuName => item_name
     end
   end
 end
