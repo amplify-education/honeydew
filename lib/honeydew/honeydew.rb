@@ -54,12 +54,14 @@ module Honeydew
 
     def using_device(serial, &block)
       original_device = current_device
-      use_device(serial).tap do |device|
+      use_device(serial || Honeydew.default_device_serial).tap do |device|
         device.instance_eval(&block) if block_given?
       end
     ensure
       @current_device = original_device
     end
+
+    private
 
     def use_device(serial)
       @current_device = device[serial]
@@ -67,7 +69,7 @@ module Honeydew
 
     def device
       @devices ||= Hash.new do |hash, serial|
-        hash[serial] = Device.new(serial) if attached_devices.include?(serial)
+        hash[serial] = Device.new(serial)
       end
     end
   end
