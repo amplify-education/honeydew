@@ -47,7 +47,7 @@ object for it:
 Then you can begin issuing commands:
 
 ``` ruby
-    nexus.click_text 'Android Air-Hocket'
+    nexus.click_text 'Android Air-Hockey'
     if nexus.has_text? 'New Game'
       nexus.click_button 'New Game'
     ...
@@ -78,6 +78,15 @@ steps like so:
 ## Controlling Android Devices
 
 Honeydew provides a number of methods for interacting with an Android device.
+
+## Thanks
+
+Honeydew is brought to you by Chris Rex of [Amplify](http://www.amplify.com/)
+and [Selvakumar Natesan](https://github.com/selvakn) from
+[ThoughtWorks](http://www.thoughtworks.com/) with additional work by:
+
+  1. [Shyam Vala](https://github.com/shyamvala)
+  2. [John Barker](https://github.com/excepttheweasel/)
 
 ## Contributing
 
