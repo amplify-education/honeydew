@@ -17,6 +17,10 @@ module Honeydew
       perform_action(:action => 'is_button_present', :arguments => {:text => button_text}, :retry_until => timeout)
     end
 
+    def has_child_count?(parent_element_description, child_element_description, child_count, timeout = Honeydew.config.timeout)
+      perform_action(:action => 'is_child_count_equal_to', :arguments => {:parent_description => parent_element_description, :child_description => child_element_description, :child_count => child_count}, :retry_until => timeout)
+    end
+
     def has_element_with_nested_text?(parent_description, child_text, timeout = Honeydew.config.timeout)
       perform_action(:action => 'is_element_with_nested_text_present', :arguments => {:parent_description => parent_description, :child_text => child_text}, :retry_until => timeout)
     end
