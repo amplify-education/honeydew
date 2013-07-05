@@ -14,11 +14,13 @@ module Honeydew
     attr_reader :serial, :port
 
     def initialize(serial)
-      if serial.to_s.empty?
-        raise ArgumentError, 'HoneyDew: Invalid serial or no device connected'
-      end
-      @port = Honeydew.config.obtain_new_port
       @serial = serial
+
+      unless Honeydew.attached_devices.include?(@serial)
+        raise ArgumentError, "No device with serial #{@serial} attached"
+      end
+
+      @port = Honeydew.config.obtain_new_port
       start_honeydew_server
     end
 
