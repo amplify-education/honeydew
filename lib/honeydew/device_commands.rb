@@ -87,7 +87,11 @@ module Honeydew
     def adb(command)
       adb_command = "adb -s #{serial} #{command}"
       log "executing '#{adb_command}'"
-      `#{adb_command} 2>/dev/null`.tap { raise 'ADB command failed' unless $?.success? }
+      `#{adb_command} 2>/dev/null`.tap do
+        if $?.exitstatus != 0
+          raise "ADB command '#{command}' failed"
+        end
+      end
     end
   end
 end
