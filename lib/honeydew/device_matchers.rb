@@ -5,6 +5,10 @@ module Honeydew
       perform_action :action => 'is_text_present', :arguments => {:text => text}, :retry_until => timeout
     end
 
+    def has_element_with_description?(description, timeout = Honeydew.config.timeout)
+      perform_action :action => 'is_text_present', :arguments => {:description => description}, :retry_until => timeout
+    end
+
     def has_edit_text?(text, timeout = Honeydew.config.timeout)
       perform_action :action => 'is_text_present', :arguments => {:text => text, :type => 'EditText'}, :retry_until => timeout
     end
