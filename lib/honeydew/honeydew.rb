@@ -37,7 +37,9 @@ module Honeydew
     end
 
     def attached_devices
-      `adb devices`.split("\n").drop(1).collect {|line| line.split[0].chomp}
+      @attached_devices ||= begin
+        `adb devices`.split("\n").drop(1).collect {|line| line.split[0].chomp}
+      end
     end
 
     def default_device_serial
