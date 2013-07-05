@@ -12,11 +12,11 @@ public class Result {
     public static Result FAILURE = new Result(false);
 
     public Result() {
-        this.success = true;
+        this(true, "Success!");
     }
 
     public Result(boolean success) {
-        this.success = success;
+        this(success, success ? "Success!" : "Failure.");
     }
 
     public Result(boolean success, String description) {

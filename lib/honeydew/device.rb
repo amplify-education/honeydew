@@ -9,6 +9,7 @@ module Honeydew
     include Honeydew::DeviceMatchers
 
     ServerTimeoutError = Class.new(Timeout::Error)
+    ActionFailedError = Class.new(Timeout::Error)
     FinderTimeout = Class.new(Timeout::Error)
 
     attr_reader :serial, :port
@@ -39,10 +40,15 @@ module Honeydew
 
       log "performing assertion #{action} with arguments #{arguments}"
       Timeout.timeout Honeydew.config.timeout.to_i, FinderTimeout do
-        sleep(0.3) until send_command action, arguments
+        begin
+          send_command action, arguments
+        rescue ActionFailedError
+          sleep 0.3
+          retry
+        end
       end
+
     rescue FinderTimeout
-      false
     end
 
     def perform_action action, arguments = {}, options = {}
@@ -53,10 +59,23 @@ module Honeydew
     end
 
     def send_command action, arguments
-      endpoint = device_endpoint('/command')
+      uri = device_endpoint('/command')
 
-      timeout_server_operation do
-        Net::HTTP.post_form endpoint, {action: action, arguments: arguments.to_json.to_s}
+      request = Net::HTTP::Post.new uri.path
+      request.set_form_data action: action, arguments: arguments.to_json.to_s
+
+      response = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        http.read_timeout = Honeydew.config.server_timeout
+        http.request request
+      end
+
+      case response
+      when Net::HTTPOK
+        true
+      when Net::HTTPRequestedRangeNotSatisfiable
+        raise ActionFailedError.new response.body
+      else
+        raise "honeydew-server failed to process command, response: #{response.value}"
       end
     end
 

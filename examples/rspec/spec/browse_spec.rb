@@ -1,8 +1,16 @@
 require 'spec_helper'
 
-describe 'Browsing the web' do
-  it 'can launch a browser and visit hacker news' do
+describe 'Browser' do
+  before do
     use_device :my_tablet
-    my_tablet.launch_home
+  end
+
+  context 'surfing the web' do
+    it 'launches hacker news' do
+      my_tablet.launch_home
+      my_tablet.click_text 'Chrome'
+      my_tablet.fill_in 'Search, or say Google', with: 'http://news.ycombinator.com'
+      expect(my_tablet).to have_text 'Hacker News'
+    end
   end
 end
