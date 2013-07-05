@@ -12,7 +12,7 @@ public class Result {
     public static Result FAILURE = new Result(false);
 
     public Result() {
-        this(true, "Success!");
+        this(true);
     }
 
     public Result(boolean success) {
