@@ -81,9 +81,8 @@ Honeydew provides a number of methods for interacting with an Android device.
 
 ## Thanks
 
-Honeydew is brought to you by Chris Rex of [Amplify](http://www.amplify.com/)
-and [Selvakumar Natesan](https://github.com/selvakn) from
-[ThoughtWorks](http://www.thoughtworks.com/) with additional work by:
+Honeydew is brought to you by [Selvakumar Natesan](https://github.com/selvakn) and [Christopher Rex](https://github.com/christopher-rex) from [ThoughtWorks](http://www.thoughtworks.com/)
+and with additional work by:
 
   1. [Shyam Vala](https://github.com/shyamvala)
   2. [John Barker](https://github.com/excepttheweasel/)
