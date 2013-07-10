@@ -63,6 +63,10 @@ module Honeydew
       @current_device = original_device
     end
 
+    def devices
+      @devices
+    end
+
     private
 
     def use_device(serial)

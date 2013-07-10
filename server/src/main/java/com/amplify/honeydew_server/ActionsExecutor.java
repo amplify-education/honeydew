@@ -64,6 +64,7 @@ public class ActionsExecutor {
         actionClasses.add(HasSettingsMenuItem.class);
         actionClasses.add(SelectFromAppsList.class);
         actionClasses.add(Unlock.class);
+        actionClasses.add(ScrollToTextByIndex.class);
         return actionClasses;
     }
 

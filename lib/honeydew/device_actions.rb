@@ -4,12 +4,16 @@ module Honeydew
   module DeviceActions
     include Honeydew::DeviceCommands
 
+    def scroll_to_text text, index = '0'
+      perform_action :scroll_to_text_by_index, :text => text, :index => index
+    end
+
     def click_button button_text
       perform_action :click, :text => button_text, :type => 'Button'
     end
 
     def click_button_and_wait button_text
-      perform_assertion :click_and_wait_for_new_window, :text => button_text, :type => 'Button'
+      perform_action :click_and_wait_for_new_window, :text => button_text, :type => 'Button'
     end
 
     def click_text text
@@ -17,7 +21,7 @@ module Honeydew
     end
 
     def click_text_and_wait text
-      perform_assertion :click_and_wait_for_new_window, :text => text, :type => 'TextView'
+      perform_action :click_and_wait_for_new_window, :text => text, :type => 'TextView'
     end
 
     def click_element element_description
@@ -25,7 +29,7 @@ module Honeydew
     end
 
     def click_element_and_wait element_description
-      perform_assertion :click_and_wait_for_new_window, :description => element_description
+      perform_action :click_and_wait_for_new_window, :description => element_description
     end
 
     def fill_in field_description, options = {with: ''}

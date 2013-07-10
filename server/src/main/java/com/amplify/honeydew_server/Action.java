@@ -1,10 +1,7 @@
 package com.amplify.honeydew_server;
 
 import android.util.Log;
-import com.android.uiautomator.core.UiDevice;
-import com.android.uiautomator.core.UiObject;
-import com.android.uiautomator.core.UiObjectNotFoundException;
-import com.android.uiautomator.core.UiSelector;
+import com.android.uiautomator.core.*;
 import com.google.common.base.CaseFormat;
 
 import java.util.Map;
@@ -27,6 +24,11 @@ public abstract class Action {
     }
 
     protected UiObject getUiObject(Map<String, Object> arguments) {
+        ViewSelector viewSelector = getViewSelector(arguments);
+        return viewSelector.find();
+    }
+
+    protected ViewSelector getViewSelector(Map<String, Object> arguments) {
         ViewSelector viewSelector = new ViewSelector();
 
         Log.d(getClass().getName(), arguments.toString());
@@ -42,7 +44,7 @@ public abstract class Action {
             Log.d(getClass().getName(), String.format("Description %s", (String) arguments.get("description")));
             viewSelector.withDescription((String) arguments.get("description"));
         }
-        return viewSelector.find();
+        return viewSelector;
     }
 
     public static class ViewSelector {
