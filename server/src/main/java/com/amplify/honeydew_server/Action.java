@@ -23,7 +23,7 @@ public abstract class Action {
         return uiDevice;
     }
 
-    protected Integer getTimeoutInMs(Map<String, Object> arguments){
+    private Integer getTimeoutInMs(Map<String, Object> arguments){
         return Integer.parseInt((String) arguments.get("timeout")) * 1000;
     }
 

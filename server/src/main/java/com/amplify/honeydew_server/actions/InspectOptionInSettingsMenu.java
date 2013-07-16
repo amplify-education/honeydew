@@ -21,9 +21,13 @@ public abstract class InspectOptionInSettingsMenu extends SelectMenuInSettings {
         List<String> optionNames = (List<String>)arguments.get("optionNames");
         UiScrollable optionsMenu = new UiScrollable(new UiSelector().className("android.widget.ListView").packageName("com.android.settings").focused(false));
 
+        if(!isUiObjectAvailable(optionsMenu, arguments)){
+            return Result.FAILURE;
+        }
+
         for (String optionName : optionNames) {
             UiObject option = optionsMenu.getChildByText(new UiSelector().className(TextView.class.getName()), optionName);
-            if (!enabled.equals(option.isEnabled())) {
+            if (!isUiObjectAvailable(option, arguments) && !enabled.equals(option.isEnabled())) {
                 return Result.FAILURE;
             }
         }

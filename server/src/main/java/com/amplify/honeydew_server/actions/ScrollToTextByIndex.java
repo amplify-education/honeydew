@@ -22,6 +22,11 @@ public class ScrollToTextByIndex extends Action {
         UiSelector scrollSelector = new UiSelector().scrollable(true).index(index);
         UiScrollable uiScrollable = new UiScrollable(scrollSelector);
 
-        return uiScrollable.scrollTextIntoView(text) ? Result.OK : Result.FAILURE;
+        if(isUiObjectAvailable(uiScrollable, arguments)){
+            uiScrollable.scrollTextIntoView(text);
+            return Result.OK;
+        }
+
+        return Result.FAILURE;
     }
 }

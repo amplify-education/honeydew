@@ -19,9 +19,15 @@ public class SetText extends Action {
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
         String textDescription = (String) arguments.get("description");
         String text = (String) arguments.get("text");
+
         UiObject textField = new UiObject(new UiSelector().description(textDescription));
-        textField.setText(text);
-        uiDevice.pressDPadDown();
-        return Result.OK;
+
+        if(isUiObjectAvailable(textField, arguments)){
+            textField.setText(text);
+            uiDevice.pressDPadDown();
+            return Result.OK;
+        }
+
+        return Result.FAILURE;
     }
 }

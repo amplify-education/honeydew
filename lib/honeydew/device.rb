@@ -51,7 +51,6 @@ module Honeydew
       end
 
     rescue FinderTimeout
-      log "retry ing! FinderTimeout"
     end
 
     def perform_action action, arguments = {}, options = {}
