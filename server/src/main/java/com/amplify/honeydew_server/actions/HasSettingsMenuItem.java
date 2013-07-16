@@ -15,8 +15,9 @@ public class HasSettingsMenuItem extends Action {
     @Override
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
         String menuName = (String) arguments.get("menuName");
+
         UiScrollable settingsMenu = new UiScrollable(new UiSelector().scrollable(true).focused(true));
         UiObject menuItem = settingsMenu.getChildByText(new UiSelector().className(TextView.class.getName()), menuName);
-        return menuItem.exists() ? Result.OK : Result.FAILURE;
+        return isUiObjectAvailable(menuItem, arguments) ? Result.OK : Result.FAILURE;
     }
 }

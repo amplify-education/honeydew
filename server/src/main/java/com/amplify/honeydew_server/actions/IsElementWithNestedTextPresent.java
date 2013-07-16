@@ -1,8 +1,12 @@
 package com.amplify.honeydew_server.actions;
 
-import com.android.uiautomator.core.*;
 import com.amplify.honeydew_server.Action;
 import com.amplify.honeydew_server.Result;
+import com.android.uiautomator.core.UiCollection;
+import com.android.uiautomator.core.UiDevice;
+import com.android.uiautomator.core.UiObject;
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.android.uiautomator.core.UiSelector;
 
 import java.util.Map;
 
@@ -18,7 +22,8 @@ public class IsElementWithNestedTextPresent extends Action {
 
         UiCollection parentElement = new UiCollection(new UiSelector().description(parentDescription));
         UiObject child = parentElement.getChild(new UiSelector().text(childText));
-        return child.exists() ? Result.OK : Result.FAILURE;
+
+        return isUiObjectAvailable(child, arguments) ? Result.OK : Result.FAILURE;
     }
 
 }

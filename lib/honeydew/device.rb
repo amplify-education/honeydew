@@ -38,6 +38,8 @@ module Honeydew
     def perform_assertion action, arguments = {}, options = {}
       ensure_device_ready
 
+      arguments[:timeout] = Honeydew.config.timeout.to_s
+
       log "performing assertion #{action} with arguments #{arguments}"
       Timeout.timeout Honeydew.config.timeout.to_i, FinderTimeout do
         begin
@@ -49,11 +51,12 @@ module Honeydew
       end
 
     rescue FinderTimeout
+      log "retry ing! FinderTimeout"
     end
 
     def perform_action action, arguments = {}, options = {}
       ensure_device_ready
-
+      arguments[:timeout] = Honeydew.config.timeout.to_s
       log "performing action #{action} with arguments #{arguments}"
       send_command action, arguments
     end

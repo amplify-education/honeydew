@@ -14,6 +14,6 @@ public class IsTextPresent extends Action {
 
     @Override
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
-        return getUiObject(arguments).exists() ? Result.OK : Result.FAILURE;
+        return isUiObjectAvailable(getUiObject(arguments), arguments) ? Result.OK : Result.FAILURE;
     }
 }
