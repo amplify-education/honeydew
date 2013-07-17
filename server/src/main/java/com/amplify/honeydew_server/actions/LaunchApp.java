@@ -15,11 +15,22 @@ public class LaunchApp extends Action {
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
         String appName = (String) arguments.get("appName");
         getUiDevice().pressHome();
-        new UiObject(new UiSelector().description("Apps")).click();
+        final UiObject uiObject = new UiObject(new UiSelector().description("Apps"));
+
+        if(isUiObjectAvailable(uiObject,arguments)){
+            uiObject.click();
+        }else{
+            return Result.FAILURE;
+        }
 
         UiScrollable appViews = new UiScrollable(new UiSelector().scrollable(true));
-        appViews.setAsHorizontalList();
-        appViews.getChildByText(new UiSelector().className(android.widget.TextView.class.getName()), appName).clickAndWaitForNewWindow();
-        return Result.OK;
+
+        if(isUiObjectAvailable(appViews, arguments)){
+            appViews.setAsHorizontalList();
+            appViews.getChildByText(new UiSelector().className(android.widget.TextView.class.getName()), appName).clickAndWaitForNewWindow();
+            return Result.OK;
+        }
+
+        return Result.FAILURE;
     }
 }

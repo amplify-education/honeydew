@@ -19,10 +19,14 @@ public class SetTextByLabel extends Action {
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
         String label = (String) arguments.get("label");
         String inputText = (String) arguments.get("text");
-        UiObject textField = null;
-        textField = new UiObject(new UiSelector().text(label));
-        textField.setText(inputText);
-        uiDevice.pressDPadDown();
-        return Result.OK;
+        UiObject textField = new UiObject(new UiSelector().text(label));
+
+        if (isUiObjectAvailable(textField, arguments)) {
+            textField.setText(inputText);
+            uiDevice.pressDPadDown();
+            return Result.OK;
+        }
+
+        return Result.FAILURE;
     }
 }

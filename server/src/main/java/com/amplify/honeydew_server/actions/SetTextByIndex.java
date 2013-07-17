@@ -1,10 +1,13 @@
 package com.amplify.honeydew_server.actions;
 
-import android.util.*;
-import com.android.uiautomator.core.*;
-import com.amplify.honeydew_server.*;
+import com.amplify.honeydew_server.Action;
+import com.amplify.honeydew_server.Result;
+import com.android.uiautomator.core.UiDevice;
+import com.android.uiautomator.core.UiObject;
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.android.uiautomator.core.UiSelector;
 
-import java.util.*;
+import java.util.Map;
 
 public class SetTextByIndex extends Action {
 
@@ -14,12 +17,15 @@ public class SetTextByIndex extends Action {
 
     @Override
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
-        Log.i("SetTextByIndex", "Found index field: " + arguments.get("index"));
         int index = Integer.parseInt((String) arguments.get("index"));
         String text = (String) arguments.get("text");
         UiObject textField = new UiObject(new UiSelector().className("android.widget.EditText").index(index));
-        Log.i("SetTextByIndex", "Found text field: " + textField);
-        textField.setText(text);
-        return Result.OK;
+
+        if (isUiObjectAvailable(textField, arguments)) {
+            textField.setText(text);
+            return Result.OK;
+        }
+
+        return Result.FAILURE;
     }
 }
