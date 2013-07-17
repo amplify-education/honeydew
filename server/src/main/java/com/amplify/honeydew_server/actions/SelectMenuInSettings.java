@@ -1,5 +1,6 @@
 package com.amplify.honeydew_server.actions;
 
+import android.widget.TextView;
 import com.android.uiautomator.core.*;
 import com.amplify.honeydew_server.Action;
 import com.amplify.honeydew_server.Result;
@@ -14,9 +15,19 @@ public class SelectMenuInSettings extends Action {
     @Override
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
         String menuName = (String) arguments.get("menuName");
-        UiScrollable settingsMenu = new UiScrollable(new UiSelector().scrollable(true).focused(true));
 
-        (settingsMenu.getChildByText(new UiSelector().className(android.widget.TextView.class.getName()),menuName)).click();
-        return Result.OK;
+        final UiScrollable settingsMenu = new UiScrollable(new UiSelector().scrollable(true).focused(true));
+        if(!isUiObjectAvailable(settingsMenu,arguments)){
+            return Result.FAILURE;
+        }
+
+        final UiSelector childPattern = new UiSelector().className(TextView.class.getName());
+        final UiObject childByText = settingsMenu.getChildByText(childPattern, menuName);
+        if (isUiObjectAvailable(childByText, arguments)) {
+            childByText.click();
+            return Result.OK;
+        }
+
+        return Result.FAILURE;
     }
 }

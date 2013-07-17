@@ -1,5 +1,6 @@
 package com.amplify.honeydew_server.actions;
 
+import android.widget.TextView;
 import com.android.uiautomator.core.*;
 import com.amplify.honeydew_server.Action;
 import com.amplify.honeydew_server.Result;
@@ -13,12 +14,23 @@ public class SelectFromAppsList extends Action {
 
     @Override
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
-        String appName = (String)arguments.get("appName");
+        String appName = (String) arguments.get("appName");
         //TODO: Using a better selector
         UiScrollable settingsMenu = new UiScrollable(new UiSelector().scrollable(true).focused(false));
-        settingsMenu.setAsVerticalList();
 
-        (settingsMenu.getChildByText(new UiSelector().className(android.widget.TextView.class.getName()),appName)).click();
-        return Result.OK;
+        if (!isUiObjectAvailable(settingsMenu, arguments)) {
+            return Result.FAILURE;
+        }
+
+        settingsMenu.setAsVerticalList();
+        final UiSelector childPattern = new UiSelector().className(TextView.class.getName());
+        final UiObject childByText = settingsMenu.getChildByText(childPattern, appName);
+
+        if (isUiObjectAvailable(childByText, arguments)) {
+            childByText.click();
+            return Result.OK;
+        }
+
+        return Result.FAILURE;
     }
 }

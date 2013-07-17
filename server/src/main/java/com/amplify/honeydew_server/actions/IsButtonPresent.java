@@ -18,6 +18,6 @@ public class IsButtonPresent extends Action {
     public Result execute(Map<String, Object> arguments) throws UiObjectNotFoundException {
         String text = (String) arguments.get("text");
         UiObject textView = new UiObject(new UiSelector().className(android.widget.Button.class.getName()).textContains(text));
-        return textView.exists() ? Result.OK : Result.FAILURE;
+        return isUiObjectAvailable(textView, arguments) ? Result.OK : Result.FAILURE;
     }
 }
