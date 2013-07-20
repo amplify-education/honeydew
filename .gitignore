@@ -19,3 +19,4 @@ bin
 output
 .idea
 log
+.DS_Store
