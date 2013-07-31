@@ -60,6 +60,10 @@ module Honeydew
       perform_action :long_click, :description => element_description
     end
 
+    def long_click_text element_text
+      perform_action :long_click, :text =>element_text, :type => 'TextView'
+    end
+
     def launch_settings_item item_name
       perform_action :select_menu_in_settings, :menuName => item_name
     end
