@@ -12,7 +12,7 @@ module Honeydew
 
     def initialize
       @port = 7120
-      @debug = true
+      @debug = false
       @timeout = 5.seconds
       @server_timeout = 30.seconds
     end
