@@ -51,8 +51,8 @@ module Honeydew
 
     def start_automation_server
       info "starting honeydew-server on the device"
+      adb "push #{honeydew_server_file} /data/local/tmp"
       Thread.new do
-        adb "push #{honeydew_server_file} /data/local/tmp"
         adb "shell uiautomator runtest #{honeydew_server_package} -c com.amplify.honeydew_server.TestRunner"
       end
       at_exit do
