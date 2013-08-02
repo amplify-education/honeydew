@@ -2,11 +2,13 @@ require 'net/http'
 
 require 'honeydew/device_matchers'
 require 'honeydew/device_actions'
+require 'honeydew/device_log_formatter'
 
 module Honeydew
   class Device
     include Honeydew::DeviceActions
     include Honeydew::DeviceMatchers
+    include Honeydew::DeviceLogFormatter
 
     ServerTimeoutError = Class.new(Timeout::Error)
     ActionFailedError = Class.new(Timeout::Error)
@@ -40,7 +42,7 @@ module Honeydew
 
       arguments[:timeout] = Honeydew.config.timeout.to_s
 
-      log "performing assertion #{action} with arguments #{arguments}"
+      debug "performing assertion #{action} with arguments #{arguments}"
       Timeout.timeout Honeydew.config.timeout.to_i, FinderTimeout do
         begin
           send_command action, arguments
@@ -56,7 +58,7 @@ module Honeydew
     def perform_action action, arguments = {}, options = {}
       ensure_device_ready
       arguments[:timeout] = Honeydew.config.timeout.to_s
-      log "performing action #{action} with arguments #{arguments}"
+      debug "performing action #{action} with arguments #{arguments}"
       send_command action, arguments
     end
 
@@ -81,11 +83,6 @@ module Honeydew
       end
     end
 
-    def log message
-      return unless Honeydew.config.debug
-      STDERR.puts "Device #{serial}: #{message}"
-    end
-
     def ensure_device_ready
       @device_ready ||= begin
         wait_for_honeydew_server
@@ -98,11 +95,11 @@ module Honeydew
     end
 
     def wait_for_honeydew_server
-      log 'waiting for honeydew-server to respond'
+      info 'waiting for honeydew-server to respond'
       timeout_server_operation do
         sleep 0.1 until honeydew_server_alive?
       end
-      log 'honeydew-server is alive and awaiting commands'
+      info 'honeydew-server is alive and awaiting commands'
 
     rescue ServerTimeoutError
       raise 'timed out waiting for honeydew-server to respond'

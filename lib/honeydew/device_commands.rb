@@ -35,7 +35,7 @@ module Honeydew
     end
 
     def terminate_honeydew_server
-      log "terminating honeydew-server"
+      info "terminating honeydew-server"
       Net::HTTP.post_form device_endpoint('/terminate'), {}
     rescue Errno::ECONNREFUSED, Errno::ECONNRESET, EOFError
       # Swallow
@@ -50,7 +50,7 @@ module Honeydew
     end
 
     def start_automation_server
-      log "starting honeydew-server on the device"
+      info "starting honeydew-server on the device"
       Thread.new do
         adb "push #{honeydew_server_file} /data/local/tmp"
         adb "shell uiautomator runtest #{honeydew_server_package} -c com.amplify.honeydew_server.TestRunner"
@@ -86,7 +86,7 @@ module Honeydew
 
     def adb(command)
       adb_command = "adb -s #{serial} #{command}"
-      log "executing '#{adb_command}'"
+      info "executing '#{adb_command}'"
       `#{adb_command} 2>/dev/null`.tap do
         if $?.exitstatus != 0
           raise "ADB command '#{command}' failed"

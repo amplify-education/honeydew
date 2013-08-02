@@ -5,16 +5,18 @@ require 'honeydew/device'
 
 module Honeydew
   class Configuration
-    attr_accessor :debug,
+    attr_accessor :logger,
+      :port,
       :server_timeout,
-      :timeout,
-      :port
+      :timeout
 
     def initialize
       @port = 7120
-      @debug = false
       @timeout = 5.seconds
       @server_timeout = 30.seconds
+
+      @logger = Logger.new(STDERR)
+      @logger.level = Logger::INFO
     end
 
     def obtain_new_port
