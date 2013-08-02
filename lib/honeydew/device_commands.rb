@@ -89,7 +89,9 @@ module Honeydew
       info "executing '#{adb_command}'"
       `#{adb_command} 2>/dev/null`.tap do
         if $?.exitstatus != 0
-          raise "ADB command '#{command}' failed"
+          message = "ADB command '#{command}' failed"
+          error message
+          raise message
         end
       end
     end
