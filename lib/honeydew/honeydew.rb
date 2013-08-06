@@ -53,7 +53,7 @@ module Honeydew
     end
 
     def current_device
-      @current_device ||= default_device
+      @current_device
     end
 
     def using_device(serial, &block)
