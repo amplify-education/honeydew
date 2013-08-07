@@ -76,7 +76,7 @@ module Honeydew
       case response
       when Net::HTTPOK
         true
-      when Net::HTTPRequestedRangeNotSatisfiable
+      when Net::HTTPNoContent
         raise ActionFailedError.new response.body
       else
         raise "honeydew-server failed to process command, response: #{response.value}"

@@ -55,8 +55,7 @@ public class RemoteCommandReceiver extends NanoHTTPD {
             if (result.success) {
                 return new Response(result.description);
             } else {
-                // TODO: NanoHTTPD does not provide a particularly complete set of status codes, so use 416 for now
-                return new Response(Response.Status.RANGE_NOT_SATISFIABLE, PLAIN_TEXT, result.errorMessage);
+                return new Response(Response.Status.NO_CONTENT, null, (String) null);
             }
         } catch(Exception exception) {
             Log.e(getClass().getName(), String.format("Server error while processing command %s: %s", action, exception.toString()));
