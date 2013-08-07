@@ -78,13 +78,9 @@ module Honeydew
       end
     end
 
-    def timeout_server_operation &block
-      Timeout.timeout(Honeydew.config.server_timeout.to_i, ServerTimeoutError, &block)
-    end
-
     def wait_for_honeydew_server
       info 'waiting for honeydew-server to respond'
-      timeout_server_operation do
+      Timeout.timeout(Honeydew.config.server_timeout.to_i, ServerTimeoutError) do
         sleep 0.1 until honeydew_server_alive?
       end
       info 'honeydew-server is alive and awaiting commands'
