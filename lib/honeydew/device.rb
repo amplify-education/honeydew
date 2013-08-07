@@ -106,7 +106,7 @@ module Honeydew
     end
 
     def honeydew_server_alive?
-      Net::HTTP.get_response(device_endpoint('/status')).code.to_i == 200
+      Net::HTTP.get_response(device_endpoint('/status')).is_a?(Net::HTTPSuccess)
     rescue Errno::ECONNREFUSED, Errno::ECONNRESET, Errno::ETIMEDOUT, Errno::ENETRESET, EOFError
     end
   end
