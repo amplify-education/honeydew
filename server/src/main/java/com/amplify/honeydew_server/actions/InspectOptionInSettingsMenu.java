@@ -1,11 +1,10 @@
 package com.amplify.honeydew_server.actions;
 
 import android.widget.TextView;
-import com.android.uiautomator.core.*;
 import com.amplify.honeydew_server.Result;
+import com.android.uiautomator.core.*;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class InspectOptionInSettingsMenu extends SelectMenuInSettings {
     private Boolean enabled;

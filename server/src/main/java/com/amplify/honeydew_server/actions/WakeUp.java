@@ -1,9 +1,8 @@
 package com.amplify.honeydew_server.actions;
 
-import com.android.uiautomator.core.*;
-import com.amplify.honeydew_server.Action;
-import com.amplify.honeydew_server.Result;
 import android.os.RemoteException;
+import com.amplify.honeydew_server.*;
+import com.android.uiautomator.core.*;
 
 import java.util.Map;
 

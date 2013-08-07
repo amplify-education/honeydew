@@ -1,13 +1,11 @@
 package com.amplify.honeydew_server;
 
 import android.util.Log;
-import com.android.uiautomator.core.UiDevice;
 import com.amplify.honeydew_server.actions.*;
+import com.android.uiautomator.core.UiDevice;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Set;
+import java.lang.reflect.*;
+import java.util.*;
 
 import static com.google.common.collect.Sets.newHashSet;
 

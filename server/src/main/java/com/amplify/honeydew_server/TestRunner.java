@@ -2,9 +2,9 @@ package com.amplify.honeydew_server;
 
 import android.util.Log;
 import android.view.KeyEvent;
+import com.amplify.honeydew_server.httpd.RemoteCommandReceiver;
 import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
-import com.amplify.honeydew_server.httpd.RemoteCommandReceiver;
 import fi.iki.elonen.ServerRunner;
 
 public class TestRunner extends UiAutomatorTestCase {

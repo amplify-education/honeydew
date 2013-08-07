@@ -1,13 +1,10 @@
 package com.amplify.honeydew_server.actions;
 
-import com.android.uiautomator.core.UiDevice;
-import com.android.uiautomator.core.UiObjectNotFoundException;
-import com.amplify.honeydew_server.Action;
-import com.amplify.honeydew_server.Result;
+import com.amplify.honeydew_server.*;
+import com.android.uiautomator.core.*;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.Map;
 
 public class DumpWindowHierarchy extends Action {
