@@ -32,11 +32,13 @@ public class RemoteCommandReceiver extends NanoHTTPD {
     @Override
     public Response serve(String uri, Method method, Map<String, String> headers, Map<String, String> params, Map<String, String> files) {
         if (method == Method.POST && uri.equalsIgnoreCase("/terminate")) {
+            Log.d(getClass().getName(), "Got terminate request, finishing up...");
             stop();
             return terminateOkResponse;
         } else if (method == Method.POST && uri.equalsIgnoreCase("/command")) {
             return performCommand(params);
         } else if (method == Method.GET && uri.equalsIgnoreCase("/status")) {
+            Log.d(getClass().getName(), "Got status request, responding OK");
             return statusOkResponse;
         }
 
