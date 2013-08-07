@@ -52,7 +52,7 @@ public class RemoteCommandReceiver extends NanoHTTPD {
         Log.i(getClass().getName(), String.format("Performing action %s: %s for %s", action, argumentJson, params.toString()));
         try {
             Result result = actionsExecutor.execute(new Command(action, arguments));
-            if (result.success == true) {
+            if (result.success) {
                 return new Response(result.description);
             } else {
                 // TODO: NanoHTTPD does not provide a particularly complete set of status codes, so use 416 for now
