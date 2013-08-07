@@ -60,7 +60,7 @@ public class RemoteCommandReceiver extends NanoHTTPD {
             }
         } catch(Exception exception) {
             Log.e(getClass().getName(), String.format("Server error while processing command %s: %s", action, exception.toString()));
-            return new Response(Response.Status.INTERNAL_ERROR, PLAIN_TEXT, exception.toString());
+            return new Response(Response.Status.INTERNAL_ERROR, PLAIN_TEXT, exception.getMessage());
         }
     }
 }
