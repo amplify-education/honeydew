@@ -65,8 +65,10 @@ module Honeydew
 
       case response
       when Net::HTTPOK
-        true
+        info "action succeeded, response: #{response.body}"
+        response.body
       when Net::HTTPNoContent
+        info "action failed, response: #{response.body}"
         raise ActionFailedError.new response.body
       else
         raise "honeydew-server failed to process command, response: #{response.body}"
