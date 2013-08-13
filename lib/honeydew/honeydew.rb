@@ -66,7 +66,7 @@ module Honeydew
     end
 
     def devices
-      @devices
+      @devices.values
     end
 
     private
