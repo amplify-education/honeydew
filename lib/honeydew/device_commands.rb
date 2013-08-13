@@ -18,12 +18,14 @@ module Honeydew
     end
 
     def dump_window_hierarchy(local_path)
-      path_in_device = perform_action('dump_window_hierarchy')['description']
+      path_in_device = perform_action('dump_window_hierarchy')
+      info "dumping window hierarchy to #{local_path}..."
       adb "pull #{path_in_device} #{local_path}"
     end
 
     def take_screenshot(local_path)
       path_in_device = '/data/local/tmp/honeydew.png'
+      info "saving screenshot to #{local_path}..."
       adb "shell /system/bin/screencap -p #{path_in_device}"
       adb "pull #{path_in_device} #{local_path}"
     end
