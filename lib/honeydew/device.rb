@@ -56,9 +56,11 @@ module Honeydew
       request = Net::HTTP::Post.new uri.path
       request.set_form_data action: action, arguments: arguments.to_json.to_s
 
-      response = Net::HTTP.start(uri.hostname, uri.port) do |http|
-        http.read_timeout = Honeydew.config.server_timeout
-        http.request request
+      response = benchmark do
+        Net::HTTP.start(uri.hostname, uri.port) do |http|
+          http.read_timeout = Honeydew.config.server_timeout
+          http.request request
+        end
       end
 
       case response
@@ -69,6 +71,15 @@ module Honeydew
       else
         raise "honeydew-server failed to process command, response: #{response.body}"
       end
+    end
+
+    def benchmark
+      result = nil
+      realtime = Benchmark.realtime do
+        result = yield
+      end
+      debug "action completed in #{(realtime * 1000).to_i}ms"
+      result
     end
 
     def ensure_device_ready
