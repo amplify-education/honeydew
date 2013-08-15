@@ -11,8 +11,7 @@ module Honeydew
     include Honeydew::DeviceLogFormatter
 
     ServerTimeoutError = Class.new(Timeout::Error)
-    ActionFailedError = Class.new(Timeout::Error)
-    FinderTimeout = Class.new(Timeout::Error)
+    ActionFailedError = Class.new(RuntimeError)
 
     attr_reader :serial, :port
 
@@ -69,7 +68,7 @@ module Honeydew
         response.body
       when Net::HTTPNoContent
         info "action failed, response: #{response.body}"
-        raise ActionFailedError.new response.body
+        raise ActionFailedError.new "Action #{action} called with arguments #{arguments.inspect} failed"
       else
         raise "honeydew-server failed to process command, response: #{response.body}"
       end
