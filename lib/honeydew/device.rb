@@ -58,7 +58,8 @@ module Honeydew
       response = benchmark do
         Net::HTTP.start(uri.hostname, uri.port) do |http|
           http.read_timeout = Honeydew.config.server_timeout
-          http.request request
+          response = http.request request
+          {response: response, action: action}
         end
       end
 
@@ -79,8 +80,8 @@ module Honeydew
       realtime = Benchmark.realtime do
         result = yield
       end
-      debug "action completed in #{(realtime * 1000).to_i}ms"
-      result
+      debug "action '#{result[:action]}' completed in #{(realtime * 1000).to_i}ms"
+      result[:response]
     end
 
     def ensure_device_ready

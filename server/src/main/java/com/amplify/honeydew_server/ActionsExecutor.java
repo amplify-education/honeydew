@@ -3,9 +3,14 @@ package com.amplify.honeydew_server;
 import android.util.Log;
 import com.amplify.honeydew_server.actions.*;
 import com.android.uiautomator.core.UiDevice;
+import com.android.uiautomator.core.UiObjectNotFoundException;
+import com.google.common.base.Stopwatch;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static com.google.common.collect.Sets.newHashSet;
 
@@ -32,10 +37,24 @@ public class ActionsExecutor {
             if (action == null) {
                 return new Result("Action: " + actionName + " does not exists");
             }
-            return action.execute(command.getArguments());
+
+            Result result = executeWithStopwatch(command, action);
+
+            return result;
         } catch (Exception e) {
             return new Result("Exception, on calling " + actionName, e);
         }
+    }
+
+    private Result executeWithStopwatch(Command command, Action action) throws UiObjectNotFoundException {
+        Stopwatch timer = new Stopwatch().start();
+
+        Result result = action.execute(command.getArguments());
+
+        timer.stop();
+        Log.i(getClass().getName(), String.format("action '%s' took %d ms to execute on the tablet",
+                command.getAction(), timer.elapsed(TimeUnit.MILLISECONDS)));
+        return result;
     }
 
     private static Set<Class<? extends Action>> allActionClasses() {

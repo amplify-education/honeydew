@@ -10,7 +10,7 @@
     <name>Honeydew Android Server</name>
 
     <properties>
-        <platform.version>4.1.1.4</platform.version>
+        <platform.version>4.2.2_r2</platform.version>
     </properties>
 
     <repositories>
@@ -31,13 +31,13 @@
 
     <dependencies>
         <dependency>
-                 <groupId>com.google.android</groupId>
+            <groupId>android</groupId>
             <artifactId>android</artifactId>
             <version>${platform.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.android</groupId>
+            <groupId>android.test.uiautomator</groupId>
             <artifactId>uiautomator</artifactId>
             <version>${platform.version}</version>
             <scope>provided</scope>
@@ -68,7 +68,7 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>fi.iki.elonen</groupId>
             <artifactId>nanohttpd</artifactId>
             <version>2.0.3</version>
@@ -81,19 +81,18 @@
     </dependencies>
 
     <build>
-        <testSourceDirectory>${test.directory}</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>com.jayway.maven.plugins.android.generation2</groupId>
                 <artifactId>android-maven-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.6.1</version>
                 <configuration>
                     <zipalign>
                         <verbose>true</verbose>
                     </zipalign>
                     <undeployBeforeDeploy>true</undeployBeforeDeploy>
                     <sdk>
-                        <platform>16</platform>
+                        <platform>17</platform>
                     </sdk>
                     <lint>
                         <skip>true</skip>
@@ -193,32 +192,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>1.5</version>
-            </plugin>
-            <!--This plugin's configuration is used to store Eclipse m2e settings
-                only. It has no influence on the Maven build itself. -->
-            <plugin>
-                <groupId>org.eclipse.m2e</groupId>
-                <artifactId>lifecycle-mapping</artifactId>
-                <version>1.0.0</version>
-                <configuration>
-                    <lifecycleMappingMetadata>
-                        <pluginExecutions>
-                            <pluginExecution>
-                                <pluginExecutionFilter>
-                                    <groupId>com.jayway.maven.plugins.android.generation2</groupId>
-                                    <artifactId>android-maven-plugin</artifactId>
-                                    <versionRange>[3.2.0,)</versionRange>
-                                    <goals>
-                                        <goal>manifest-update</goal>
-                                    </goals>
-                                </pluginExecutionFilter>
-                                <action>
-                                    <execute/>
-                                </action>
-                            </pluginExecution>
-                        </pluginExecutions>
-                    </lifecycleMappingMetadata>
-                </configuration>
             </plugin>
         </plugins>
     </build>
