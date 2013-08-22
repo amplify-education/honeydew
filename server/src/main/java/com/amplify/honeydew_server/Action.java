@@ -9,6 +9,8 @@ import java.util.Map;
 public abstract class Action {
     protected final UiDevice uiDevice;
 
+    protected final String TAG = getClass().getSimpleName();
+
     public Action(UiDevice uiDevice) {
         this.uiDevice = uiDevice;
     }
@@ -39,17 +41,17 @@ public abstract class Action {
     protected ViewSelector getViewSelector(Map<String, Object> arguments) {
         ViewSelector viewSelector = new ViewSelector();
 
-        Log.d(getClass().getName(), arguments.toString());
+        Log.d(TAG, arguments.toString());
         if (arguments.containsKey("type")) {
-            Log.d(getClass().getName(), String.format("Type %s", (String) arguments.get("type")));
+            Log.d(TAG, String.format("Type %s", (String) arguments.get("type")));
             viewSelector.withType((String) arguments.get("type"));
         }
         if (arguments.containsKey("text")) {
-            Log.d(getClass().getName(), String.format("Text %s", (String) arguments.get("text")));
+            Log.d(TAG, String.format("Text %s", (String) arguments.get("text")));
             viewSelector.withText((String) arguments.get("text"));
         }
         if (arguments.containsKey("description")) {
-            Log.d(getClass().getName(), String.format("Description %s", (String) arguments.get("description")));
+            Log.d(TAG, String.format("Description %s", (String) arguments.get("description")));
             viewSelector.withDescription((String) arguments.get("description"));
         }
         return viewSelector;

@@ -24,8 +24,16 @@ module Honeydew
       perform_assertion :is_button_present, :text => button_text
     end
 
+    # TODO: Look for a better way to express these similar looking matchers
     def has_child_count?(parent_element_description, child_element_description, child_count)
       perform_assertion :is_child_count_equal_to,
+        :parent_description => parent_element_description,
+         :child_description => child_element_description,
+         :child_count => child_count
+    end
+
+    def has_child_count_greater_than?(parent_element_description, child_element_description, child_count)
+      perform_assertion :is_child_count_greater_than,
         :parent_description => parent_element_description,
          :child_description => child_element_description,
          :child_count => child_count

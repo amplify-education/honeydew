@@ -8,24 +8,26 @@ import com.google.common.base.Stopwatch;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
+import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Sets.newHashSet;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class ActionsExecutor {
 
-    private final UiDevice uiDevice;
-    private final HashMap<String, Action> actions;
+    protected final UiDevice uiDevice;
+    private final Map<String, Action> actions;
+    private static final String TAG = ActionsExecutor.class.getName();
 
     public ActionsExecutor(UiDevice uiDevice) throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException {
         this.uiDevice = uiDevice;
-        actions = new HashMap();
+        actions = newHashMap();
         for (Class<? extends Action> actionClass : allActionClasses()) {
             Constructor<? extends Action> constructor = actionClass.getConstructor(UiDevice.class);
-            Action action = constructor.newInstance(getUiDevice());
-            Log.d(getClass().getName(), String.format("Registering action: %s", action.name()));
+            Action action = constructor.newInstance(this.uiDevice);
+            Log.d(TAG, String.format("Registering action: %s", action.name()));
             actions.put(action.name(), action);
         }
     }
@@ -35,12 +37,9 @@ public class ActionsExecutor {
         try {
             Action action = actions.get(actionName);
             if (action == null) {
-                return new Result("Action: " + actionName + " does not exists");
+                return new Result("Action: " + actionName + " does not exist");
             }
-
-            Result result = executeWithStopwatch(command, action);
-
-            return result;
+            return executeWithStopwatch(command, action);
         } catch (Exception e) {
             return new Result("Exception, on calling " + actionName, e);
         }
@@ -52,8 +51,8 @@ public class ActionsExecutor {
         Result result = action.execute(command.getArguments());
 
         timer.stop();
-        Log.i(getClass().getName(), String.format("action '%s' took %d ms to execute on the tablet",
-                command.getAction(), timer.elapsed(TimeUnit.MILLISECONDS)));
+        Log.i(TAG, String.format("action '%s' took %d ms to execute on the tablet",
+                command.getAction(), timer.elapsed(MILLISECONDS)));
         return result;
     }
 
@@ -68,6 +67,7 @@ public class ActionsExecutor {
         actionClasses.add(IsButtonPresent.class);
         actionClasses.add(IsElementWithNestedTextPresent.class);
         actionClasses.add(IsChildCountEqualTo.class);
+        actionClasses.add(IsChildCountGreaterThan.class);
         actionClasses.add(Click.class);
         actionClasses.add(ClickAndWaitForNewWindow.class);
         actionClasses.add(LongClick.class);
@@ -83,9 +83,5 @@ public class ActionsExecutor {
         actionClasses.add(Unlock.class);
         actionClasses.add(ScrollToTextByIndex.class);
         return actionClasses;
-    }
-
-    private UiDevice getUiDevice() {
-        return uiDevice;
     }
 }

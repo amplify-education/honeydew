@@ -5,21 +5,22 @@ import android.view.KeyEvent;
 import com.amplify.honeydew_server.httpd.RemoteCommandReceiver;
 import com.android.uiautomator.core.UiDevice;
 import com.android.uiautomator.testrunner.UiAutomatorTestCase;
-import fi.iki.elonen.ServerRunner;
 
 public class TestRunner extends UiAutomatorTestCase {
 
+    private static final String TAG = TestRunner.class.getSimpleName();
+
     public void testRemoteLoop() throws Exception {
-        Log.d(getClass().getName(), "Starting honeydew-server...");
+        Log.d(TAG, "Starting honeydew-server...");
 
         UiDevice uiDevice = getUiDevice();
         uiDevice.wakeUp();
         unlockEmulator();
 
         RemoteCommandReceiver remoteCommandReceiver =  new RemoteCommandReceiver(new ActionsExecutor(uiDevice));
-        ServerRunner.executeInstance(remoteCommandReceiver);
+        remoteCommandReceiver.start();
 
-        Log.d(getClass().getName(), "honeydew-server started, waiting for commands");
+        Log.d(TAG, "honeydew-server started, waiting for commands");
         while(true) {
             Thread.sleep(1000);
         }
