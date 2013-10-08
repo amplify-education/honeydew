@@ -16,6 +16,10 @@ module Honeydew
       perform_action :click_and_wait_for_new_window, :text => button_text, :type => 'Button'
     end
 
+    def click_check_box(check_box_text)
+      perform_action :click, :text => check_box_text, :type => 'CheckBox'
+    end
+
     def click_text text
       perform_action :click, :text => text, :type => 'TextView'
     end
