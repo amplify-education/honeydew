@@ -16,6 +16,10 @@ module Honeydew
       perform_assertion :is_text_present, :text => text, :type => 'TextView'
     end
 
+    def has_text_disappear?(text)
+      perform_assertion :is_text_gone, :text => text, :type => 'TextView'
+    end
+
     def has_textview_with_text_and_description?(text, description)
       perform_assertion :is_text_present, :text => text, :description => description, :type => 'TextView'
     end

@@ -33,6 +33,10 @@ public abstract class Action {
        return uiObject.waitForExists(getTimeoutInMs(arguments));
     }
 
+    protected boolean isUiObjectGone(UiObject uiObject, Map<String, Object> arguments){
+        return uiObject.waitUntilGone(getTimeoutInMs(arguments));
+    }
+
     protected UiObject getUiObject(Map<String, Object> arguments) {
         ViewSelector viewSelector = getViewSelector(arguments);
         return viewSelector.find();

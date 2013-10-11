@@ -64,6 +64,7 @@ public class ActionsExecutor {
         actionClasses.add(PressEnter.class);
         actionClasses.add(WakeUp.class);
         actionClasses.add(IsTextPresent.class);
+        actionClasses.add(IsTextGone.class);
         actionClasses.add(IsButtonPresent.class);
         actionClasses.add(IsElementWithNestedTextPresent.class);
         actionClasses.add(IsChildCountEqualTo.class);
