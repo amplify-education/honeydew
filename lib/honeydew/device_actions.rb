@@ -87,5 +87,9 @@ module Honeydew
     def wake_up
       perform_action :wake_up
     end
+
+    def sleep
+      perform_action :sleep
+    end
   end
 end

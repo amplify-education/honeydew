@@ -63,6 +63,7 @@ public class ActionsExecutor {
         actionClasses.add(PressBack.class);
         actionClasses.add(PressEnter.class);
         actionClasses.add(WakeUp.class);
+        actionClasses.add(Sleep.class);
         actionClasses.add(IsTextPresent.class);
         actionClasses.add(IsTextGone.class);
         actionClasses.add(IsButtonPresent.class);
