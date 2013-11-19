@@ -1,5 +1,10 @@
 module Honeydew
   module DeviceMatchers
+
+    def has_app_installed_in_data?(package_name)
+      packages_in_data.grep(/#{package_name}/).count > 0
+    end
+
     def has_text?(text)
       perform_assertion :is_text_present, :text => text
     end
@@ -66,6 +71,20 @@ module Honeydew
     def has_settings_menu_item?(item_name)
       perform_assertion :has_settings_menu_item,
         :menuName => item_name
+    end
+
+    private
+
+    def installed_packages
+      adb("shell pm list packages -f").split(/\r\n/)
+    end
+
+    def packages_in_data
+      installed_packages.select {|p| p.starts_with? "package:/data/"}
+    end
+
+    def packages_in_system
+      installed_packages.select {|p| p.starts_with? "package:/system/"}
     end
   end
 end
