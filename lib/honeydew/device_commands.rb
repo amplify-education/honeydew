@@ -8,6 +8,10 @@ module Honeydew
       has_app_installed?(package_name)
     end
 
+    def is_app_installed_in_data?(package_name)
+      has_app_installed_in_data?(package_name)
+    end
+
     def clear_directory(directory)
       all_files_in_directory_path = [directory.chomp('/'), '/*'].join
       adb "shell rm -r #{all_files_in_directory_path}"
@@ -70,8 +74,8 @@ module Honeydew
       adb "uninstall #{package_name}"
     end
 
-    def install_app(apk_location)
-      adb "install #{apk_location}"
+    def install_app(apk_location, opts=[])
+      adb "install #{opts.join(" ")} #{apk_location}"
     end
 
     def clear_app_data(package_name)
