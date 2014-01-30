@@ -69,6 +69,11 @@ module Honeydew
       @devices.values
     end
 
+    def clear_devices
+      @default_device = nil
+      @devices = nil
+    end
+
     private
 
     def use_device(serial)
