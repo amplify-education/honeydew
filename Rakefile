@@ -8,7 +8,7 @@ task :default => :spec
 namespace :server do
   desc 'build android server'
   task :build do
-    system "cd #{android_server_path} && mvn clean package"
+    system "cd #{android_server_path} && mvn clean package -Dversion=#{Honeydew::VERSION}"
   end
 
   desc 'push the server to the device'
@@ -21,4 +21,4 @@ def android_server_path
   File.absolute_path(File.join(File.dirname(__FILE__), 'server'))
 end
 
-task :build => [:spec, :build_android_server]
+task :build => ['server:build']

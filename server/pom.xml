@@ -5,9 +5,9 @@
 
     <groupId>amplify</groupId>
     <artifactId>honeydew-server</artifactId>
-    <version>0.25.0</version>
     <packaging>jar</packaging>
     <name>Honeydew Android Server</name>
+    <version>${version}</version>
 
     <properties>
         <platform.version>4.2.2_r2</platform.version>
