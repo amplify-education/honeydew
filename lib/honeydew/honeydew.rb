@@ -12,8 +12,8 @@ module Honeydew
 
     def initialize
       @port = 7120
-      @timeout = 2.seconds
-      @server_timeout = 60.seconds
+      @timeout = 2.seconds.to_i
+      @server_timeout = 60.seconds.to_i
 
       @logger = Logger.new(STDERR)
       @logger.level = Logger::INFO
