@@ -55,7 +55,7 @@ module Honeydew
     end
 
     def has_app_installed?(package_name)
-      adb('shell pm list packages').include?(package_name)
+      installed_packages.include?(package_name)
     end
 
     def is_option_in_setting_enabled?(item_name, option_names)
