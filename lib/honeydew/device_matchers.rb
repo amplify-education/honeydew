@@ -76,15 +76,19 @@ module Honeydew
     private
 
     def installed_packages
+      adb('shell pm list packages').gsub('package:', '').split(/\r\n/)
+    end
+
+    def installed_packages_with_path
       adb("shell pm list packages -f").split(/\r\n/)
     end
 
     def packages_in_data
-      installed_packages.select {|p| p.starts_with? "package:/data/"}
+      installed_packages_with_path.select {|p| p.starts_with? "package:/data/"}
     end
 
     def packages_in_system
-      installed_packages.select {|p| p.starts_with? "package:/system/"}
+      installed_packages_with_path.select {|p| p.starts_with? "package:/system/"}
     end
   end
 end
