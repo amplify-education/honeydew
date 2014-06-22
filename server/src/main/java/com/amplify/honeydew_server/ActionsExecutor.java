@@ -66,6 +66,7 @@ public class ActionsExecutor {
         actionClasses.add(Sleep.class);
         actionClasses.add(IsTextPresent.class);
         actionClasses.add(IsTextGone.class);
+        actionClasses.add(IsRegexMatchPresent.class);
         actionClasses.add(IsButtonPresent.class);
         actionClasses.add(IsElementWithNestedTextPresent.class);
         actionClasses.add(IsChildCountEqualTo.class);
