@@ -3,6 +3,7 @@ package com.amplify.honeydew_server;
 import android.util.Log;
 import com.android.uiautomator.core.*;
 import com.google.common.base.CaseFormat;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.RegularExpression;
 
 import java.util.Map;
 
@@ -58,6 +59,10 @@ public abstract class Action {
             Log.d(TAG, String.format("Description %s", (String) arguments.get("description")));
             viewSelector.withDescription((String) arguments.get("description"));
         }
+        if (arguments.containsKey("regex")) {
+            Log.d(TAG, String.format("Regular Expression %s", (String) arguments.get("regex")));
+            viewSelector.withRegexMatch((String) arguments.get("regex"));
+        }
         return viewSelector;
     }
 
@@ -76,6 +81,11 @@ public abstract class Action {
 
         public ViewSelector withDescription(String description) {
             uiSelector = uiSelector.description(description);
+            return this;
+        }
+
+        public ViewSelector withRegexMatch(String regexString) {
+            uiSelector = uiSelector.textMatches(regexString);
             return this;
         }
 

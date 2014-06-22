@@ -9,6 +9,10 @@ module Honeydew
       perform_assertion :is_text_present, :text => text
     end
 
+    def has_regex_match?(regex)
+      perform_assertion :is_regex_match_present, :regex => regex
+    end
+
     def has_element_with_description?(description)
       perform_assertion :is_text_present, :description => description
     end
